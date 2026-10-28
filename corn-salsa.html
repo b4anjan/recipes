@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chipotle-Style Corn Salsa</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="A fresh, mild Chipotle-style corn salsa ready in 5 minutes. Interactive recipe with cooking mode and timers, by Mohan Karki.">
+<meta property="og:title" content="Chipotle-Style Corn Salsa">
+<meta property="og:description" content="Fresh, mild, ready in 5 minutes. Tap Start cooking for step-by-step mode with timers.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://commons.wikimedia.org/wiki/Special:FilePath/Fresh_Sweet_Corn.jpg?width=1200">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#f2b705">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cellipse cx='16' cy='16' rx='9' ry='13' fill='%23f2b705'/%3E%3Cpath d='M7 20c4 6 14 8 18-4' stroke='%234a8a1f' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: photo-led hero, then a single readable column; ingredients as a photo grid; cooking mode takes over the screen */
+:root{
+  --bg:#f6f7f2; --surface:#ffffff; --fg:#1d221c; --muted:#5d665a; --line:#dfe3d6;
+  --corn:#f2b705; --corn-soft:#fdf1c4; --lime:#3f7a19; --lime-soft:#e5f1d8; --chili:#c4391c;
+  --on-accent:#ffffff; --shadow:0 1px 2px rgb(29 34 28 / .06), 0 8px 24px rgb(29 34 28 / .08);
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141812; --surface:#1d231a; --fg:#eef1e8; --muted:#a3ad9d; --line:#323b2d;
+  --corn:#f5c531; --corn-soft:#3a3214; --lime:#8fcf5a; --lime-soft:#25331b; --chili:#ff7a57;
+  --on-accent:#141812; --shadow:0 1px 2px rgb(0 0 0 / .3), 0 8px 24px rgb(0 0 0 / .35); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141812; --surface:#1d231a; --fg:#eef1e8; --muted:#a3ad9d; --line:#323b2d;
+  --corn:#f5c531; --corn-soft:#3a3214; --lime:#8fcf5a; --lime-soft:#25331b; --chili:#ff7a57;
+  --on-accent:#141812; --shadow:0 1px 2px rgb(0 0 0 / .3), 0 8px 24px rgb(0 0 0 / .35); color-scheme:dark}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font:17px/1.6 var(--body)}
+img{max-width:100%;display:block}
+.gutter{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:760px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.08}
+h2{font-size:1.5rem;font-weight:800}
+.eyebrow{font:700 .74rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--lime)}
+a{color:var(--lime)}
+button{font:inherit;color:inherit;background:transparent;border:0;border-radius:10px;cursor:pointer}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--corn);outline-offset:2px}
+
+/* Top bar */
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-block:14px}
+.home{font:800 1rem var(--display);text-decoration:none;color:var(--fg);display:flex;align-items:center;gap:8px}
+.home i{width:10px;height:14px;border-radius:50%;background:var(--corn);display:inline-block}
+.share{border:1px solid var(--line);background:var(--surface);padding:8px 14px;font-weight:700}
+.share:hover{border-color:var(--lime)}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:28px;align-items:center;padding-block:12px 28px}
+.hero-photo{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:4/5;background:var(--corn-soft);box-shadow:var(--shadow)}
+.hero-photo img{width:100%;height:100%;object-fit:cover}
+.hero-photo .tag{position:absolute;left:12px;bottom:12px;background:rgb(20 24 18 / .72);color:#fff;font:600 .72rem var(--mono);padding:5px 9px;border-radius:999px;text-decoration:none}
+.byline{margin:0 0 10px;font-size:.95rem;color:var(--muted)}
+.byline strong{color:var(--fg)}
+.hero h1{font-size:clamp(2.3rem,7vw,3.6rem);font-weight:800;letter-spacing:-.015em;margin-top:10px}
+.lede{color:var(--muted);margin:14px 0 0;font-size:1.08rem;max-width:44ch}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.facts span{font:600 .82rem var(--mono);background:var(--surface);border:1px solid var(--line);padding:6px 11px;border-radius:999px}
+.facts .hot{border-color:var(--lime);color:var(--lime)}
+.cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.primary{background:var(--lime);color:var(--on-accent);font:800 1.1rem var(--display);padding:15px 24px;border-radius:14px;box-shadow:var(--shadow)}
+.primary:hover{filter:brightness(1.08)}
+.secondary{border:1px solid var(--line);background:var(--surface);padding:15px 20px;border-radius:14px;font-weight:700}
+@media (max-width:640px){.hero{grid-template-columns:1fr}.hero-photo{aspect-ratio:16/11;order:-1}}
+
+/* Sections */
+main{display:flex;flex-direction:column;gap:44px;padding-bottom:110px}
+.sec-head{display:flex;flex-wrap:wrap;gap:12px;align-items:end;justify-content:space-between;margin-bottom:16px}
+.controls{display:flex;gap:8px;flex-wrap:wrap}
+.stepper,.seg{display:flex;align-items:center;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:4px}
+.stepper button{width:40px;height:40px;font-size:1.2rem}
+.stepper button:hover,.seg button:hover{background:var(--lime-soft)}
+.stepper output{min-width:100px;text-align:center;font:700 .95rem var(--mono)}
+.seg button{padding:8px 14px;height:40px;font-weight:700}
+.seg button[aria-pressed="true"]{background:var(--lime-soft);color:var(--lime)}
+
+/* Ingredient photo grid */
+.ing{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:640px){.ing{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+.ing li{min-width:0}
+.ing label{display:flex;flex-direction:column;height:100%;background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;cursor:pointer;transition:border-color .15s, transform .15s}
+.ing label:hover{border-color:var(--lime);transform:translateY(-2px)}
+.ph{position:relative;aspect-ratio:4/3;background:var(--corn-soft);overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;transition:filter .2s}
+.ph .fallback{position:absolute;inset:0;display:none;place-items:center;font:800 1.4rem var(--display);color:var(--lime)}
+.ph.nophoto img{display:none}.ph.nophoto .fallback{display:grid}
+.ph .amt{position:absolute;left:8px;top:8px;background:var(--surface);color:var(--fg);font:700 .85rem var(--mono);padding:4px 9px;border-radius:999px;box-shadow:var(--shadow);font-variant-numeric:tabular-nums}
+.ph .check{position:absolute;right:8px;top:8px;width:28px;height:28px;border-radius:50%;background:var(--surface);display:grid;place-items:center;box-shadow:var(--shadow)}
+.ph .check input{width:18px;height:18px;margin:0;accent-color:var(--lime)}
+.ing .txt{padding:10px 12px 12px;display:flex;flex-direction:column;gap:2px}
+.ing .nm{font-weight:700;line-height:1.3}
+.ing .sub{font-size:.82rem;color:var(--muted);line-height:1.35}
+.ing input:checked ~ *{}
+.ing li.got .ph img{filter:grayscale(.85) brightness(.9)}
+.ing li.got .nm{text-decoration:line-through;color:var(--muted)}
+.gotcount{font:600 .85rem var(--mono);color:var(--muted)}
+
+/* Steps */
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;counter-reset:s}
+.steps li{display:grid;grid-template-columns:40px 1fr;gap:14px;counter-increment:s;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px}
+.steps li::before{content:counter(s);font:800 1.15rem var(--display);width:40px;height:40px;border-radius:50%;background:var(--corn);color:#1d221c;display:grid;place-items:center}
+.steps strong{display:block;font-family:var(--display);font-size:1.1rem}
+.steps p{margin:4px 0 0}
+.q{font-family:var(--mono);font-weight:700;background:var(--corn-soft);padding:0 5px;border-radius:5px;white-space:nowrap}
+.tbtn{margin-top:10px;font:700 .85rem var(--mono);border:1px solid var(--lime);color:var(--lime);padding:7px 12px}
+.tbtn:hover{background:var(--lime-soft)}
+.tbtns{display:flex;gap:8px;flex-wrap:wrap}
+
+/* Serve ideas + tips */
+.ideas{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:640px){.ideas{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.idea{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px}
+.idea b{display:block;font-family:var(--display);font-size:1.05rem}
+.idea span{font-size:.88rem;color:var(--muted)}
+.tips{background:var(--lime-soft);border-radius:20px;padding:22px}
+.tips ul{margin:12px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:8px}
+footer{border-top:1px solid var(--line);padding-block:22px 40px;color:var(--muted);font-size:.85rem;display:flex;flex-direction:column;gap:6px}
+
+/* Timer dock */
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;flex-direction:column;gap:6px;pointer-events:none;
+  padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.timer{pointer-events:auto;max-width:760px;width:100%;margin:0 auto;display:flex;align-items:center;gap:12px;
+  background:var(--fg);color:var(--bg);border-radius:14px;padding:10px 14px;box-shadow:0 6px 24px rgb(0 0 0 / .25)}
+.timer .tl{flex:1;min-width:0;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.timer .tt{font:700 1.3rem var(--mono);font-variant-numeric:tabular-nums}
+.timer button{color:inherit;font-weight:700;padding:6px 10px;border:1px solid currentColor}
+.timer.done{background:var(--chili);color:#fff;animation:pulse 1s infinite}
+@keyframes pulse{50%{transform:scale(1.02)}}
+.toast{pointer-events:auto;max-width:360px;margin:0 auto;background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:700;text-align:center}
+
+/* Cooking mode */
+.cook{position:fixed;inset:0;z-index:20;background:var(--bg);display:flex;flex-direction:column;
+  padding:calc(16px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(96px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.cook-in{max-width:760px;width:100%;margin:0 auto;flex:1;display:flex;flex-direction:column;gap:18px;min-height:0}
+.cook-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--corn);transition:width .3s}
+.cook-body{flex:1;overflow:auto;display:flex;flex-direction:column;justify-content:center;gap:16px}
+.cook-body h2{font-size:clamp(1.9rem,6vw,2.8rem)}
+.cook-body p{font-size:clamp(1.2rem,4vw,1.55rem);margin:0;max-width:34ch}
+.cook-nav{display:flex;gap:10px}
+.cook-nav button{flex:1;padding:16px;font:800 1.1rem var(--display);border:2px solid var(--line);border-radius:14px}
+.cook-nav .next{background:var(--lime);border-color:var(--lime);color:var(--on-accent)}
+.ghost{border:1px solid var(--line);padding:8px 14px;font-weight:700}
+.wl{font:.8rem var(--mono);color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="gutter">
+<div class="wrap">
+  <nav class="topbar" aria-label="Site">
+    <a class="home" href="./"><i aria-hidden="true"></i>Mohan's Kitchen</a>
+    <button class="share" id="shareBtn" type="button">Share recipe</button>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <p class="byline">Created by <strong>Mohan Karki</strong></p>
+      <div class="eyebrow">Copycat · No cooking</div>
+      <h1>Chipotle-Style Corn Salsa</h1>
+      <p class="lede">Sweet corn, red onion, jalapeño and cilantro tossed with fresh lime. Mild, bright, and ready in about 5 minutes.</p>
+      <div class="facts">
+        <span>Prep 5 min</span><span>Cook 0 min</span><span id="factServ">Serves 6</span><span class="hot">Mild</span>
+      </div>
+      <div class="cta">
+        <button class="primary" id="startCook" type="button">Start cooking</button>
+        <a class="secondary" href="#ingredients" style="text-decoration:none;color:inherit">See ingredients</a>
+      </div>
+    </div>
+    <figure class="hero-photo" style="margin:0">
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Fresh_Sweet_Corn.jpg?width=1000" alt="Fresh ears of sweet corn" loading="eager">
+      <a class="tag" href="https://commons.wikimedia.org/wiki/File:Fresh_Sweet_Corn.jpg" target="_blank" rel="noopener">Photo: Wikimedia Commons</a>
+    </figure>
+  </header>
+
+  <main>
+    <section id="ingredients" aria-labelledby="ingH">
+      <div class="sec-head">
+        <div>
+          <h2 id="ingH">Ingredients</h2>
+          <span class="gotcount" id="gotCount">Tap each one as you gather it</span>
+        </div>
+        <div class="controls">
+          <div class="stepper" role="group" aria-label="Servings">
+            <button id="minus" type="button" aria-label="Fewer servings">−</button>
+            <output id="serv" aria-live="polite">6 servings</output>
+            <button id="plus" type="button" aria-label="More servings">+</button>
+          </div>
+          <div class="seg" role="group" aria-label="Units">
+            <button id="uUS" type="button" aria-pressed="true">US</button>
+            <button id="uMet" type="button" aria-pressed="false">Metric</button>
+          </div>
+        </div>
+      </div>
+      <ul class="ing" id="ingList"></ul>
+    </section>
+
+    <section aria-labelledby="stepH">
+      <div class="sec-head"><h2 id="stepH">Steps</h2></div>
+      <ol class="steps" id="stepList"></ol>
+    </section>
+
+    <section aria-labelledby="ideaH">
+      <div class="sec-head"><h2 id="ideaH">Serve it with</h2></div>
+      <div class="ideas">
+        <div class="idea"><b>Burrito bowls</b><span>Over cilantro-lime rice and beans</span></div>
+        <div class="idea"><b>Tacos</b><span>Shredded beef, carnitas, or fish</span></div>
+        <div class="idea"><b>Grilled fish</b><span>Salmon or mahi-mahi</span></div>
+        <div class="idea"><b>Chips</b><span>Next to guacamole on a party tray</span></div>
+      </div>
+    </section>
+
+    <section class="tips" aria-labelledby="tipH">
+      <h2 id="tipH">Tips</h2>
+      <ul>
+        <li>Pick a lime that feels soft and heavy for its size. It gives more juice, and lime carries the flavor.</li>
+        <li>For a mild salsa, remove every jalapeño seed and rib. Leave a few seeds in for more heat.</li>
+        <li>Thaw corn with the cold-water rinse or in the fridge, never on the counter.</li>
+        <li>Leftovers keep 3 to 4 days in an airtight container in the fridge.</li>
+      </ul>
+    </section>
+
+    <footer>
+      <span>Recipe adapted from <a href="https://www.fromvalerieskitchen.com/easy-corn-salsa-chipotle-copycat/" target="_blank" rel="noopener">From Valerie's Kitchen</a>. Written and built by Mohan Karki.</span>
+      <span>Photos from <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a> under their free licenses; tap a photo's credit to see its author and license.</span>
+      <span><a href="./">← All recipes</a></span>
+    </footer>
+  </main>
+</div>
+</div>
+
+<div class="cook" id="cook" hidden role="dialog" aria-modal="true" aria-label="Cooking mode">
+  <div class="cook-in">
+    <div class="cook-top">
+      <span class="eyebrow" id="cookCount">Step 1 of 6</span>
+      <span class="wl" id="wl"></span>
+      <button class="ghost" id="exitCook" type="button">Exit</button>
+    </div>
+    <div class="bar"><i id="barFill"></i></div>
+    <div class="cook-body" id="cookBody"></div>
+    <div class="cook-nav">
+      <button id="prev" type="button">Back</button>
+      <button id="next" class="next" type="button">Next</button>
+    </div>
+  </div>
+</div>
+
+<div class="dock" id="dock" aria-live="polite"></div>
+
+<script>
+const BASE = 6;
+const PHOTO = f => "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(f) + "?width=600";
+const ING = [
+  {id:"corn",  name:"Frozen sweet corn", note:"yellow, about 1 bag", photo:"Corn_on_the_cob_(sweet_corn).jpg", alt:"Sweet corn", us:{v:16,u:"oz"}, met:{v:454,u:"g"}},
+  {id:"onion", name:"Red onion", note:"diced", photo:"Red_onion_cut.jpg", alt:"Cut red onion", us:{v:1/3,u:"cup"}, met:{v:55,u:"g"}},
+  {id:"jal",   name:"Jalapeño", note:"medium to large, seeded and diced", photo:"Jalapenyo.jpg", alt:"Jalapeño pepper", us:{v:1,u:""}, met:{v:1,u:""}},
+  {id:"lime",  name:"Lime", note:"juiced", photo:"Lime_-_whole_and_halved.jpg", alt:"Whole and halved lime", us:{v:1,u:""}, met:{v:1,u:""}},
+  {id:"cil",   name:"Cilantro leaves", note:"loosely packed, measured before chopping", photo:"Homemade_Grown_Coriandum_Sativum_(Cilantro).jpg", alt:"Fresh cilantro", us:{v:1/2,u:"cup"}, met:{v:120,u:"ml"}},
+  {id:"salt",  name:"Salt", note:"adjust to taste", photo:null, us:{v:1/4,u:"tsp"}, met:{v:1.5,u:"g"}}
+];
+const STEPS = [
+  {t:"Quick-thaw the corn", d:"Put {corn} of frozen corn in a colander in the sink. Run cold water over it for about a minute, tossing it with your hands.", timer:{s:60,l:"Rinse corn"}},
+  {t:"Prep the vegetables", d:"Dice {onion} of red onion. Seed and dice {jal} jalapeño. Pull {cil} of cilantro leaves off the stems, then chop. Rinse and toss the corn again a couple of times while you work."},
+  {t:"Drain well", d:"Shake the corn thoroughly so it isn't watery. Extra water dilutes the flavor."},
+  {t:"Combine", d:"In a medium bowl, mix the corn, onion, jalapeño and cilantro."},
+  {t:"Season", d:"Squeeze in the juice of {lime} lime and add {salt} salt. Stir, taste, and adjust."},
+  {t:"Serve or chill", d:"Serve right away, or cover and refrigerate for a few hours so the flavors blend.", timer:{s:7200,l:"Chill salsa"}, alt:[{s:1800,l:"30 min"},{s:3600,l:"1 hr"}]}
+];
+
+const store = {get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}},
+               set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let serv = store.get("cs-serv", BASE), unit = store.get("cs-unit", "us"), checked = store.get("cs-checked", {}), step = 0;
+const $ = id => document.getElementById(id);
+
+function frac(x){
+  const whole = Math.floor(x + 1e-9), r = x - whole;
+  const opts = [[0,""],[1/8,"⅛"],[1/4,"¼"],[1/3,"⅓"],[3/8,"⅜"],[1/2,"½"],[5/8,"⅝"],[2/3,"⅔"],[3/4,"¾"],[7/8,"⅞"],[1,""]];
+  let best = opts[0]; for (const o of opts) if (Math.abs(o[0]-r) < Math.abs(best[0]-r)) best = o;
+  const w = whole + (best[0]===1?1:0), f = best[0]===1?"":best[1];
+  return (!w && !f) ? "pinch" : (w?w:"") + f;
+}
+function amount(id){
+  const m = ING.find(x=>x.id===id)[unit], v = m.v * serv / BASE;
+  if (!m.u) return frac(v);
+  if (unit === "met") return (v >= 20 ? Math.round(v/5)*5 : Math.round(v*10)/10) + " " + m.u;
+  if (m.u === "oz" && v >= 16) return frac(v/16) + " lb";
+  return frac(v) + " " + m.u;
+}
+const fill = s => s.replace(/\{(\w+)\}/g,(_,id)=>`<span class="q">${amount(id)}</span>`);
+const fmt = s => { s=Math.max(0,Math.ceil(s)); const h=Math.floor(s/3600), m=Math.floor(s%3600/60), x=s%60;
+  return (h? h+":"+String(m).padStart(2,"0") : m) + ":" + String(x).padStart(2,"0"); };
+
+function renderIng(){
+  $("ingList").innerHTML = ING.map(i=>`<li class="${checked[i.id]?"got":""}"><label for="ck-${i.id}">
+    <div class="ph ${i.photo?"":"nophoto"}">
+      ${i.photo?`<img src="${PHOTO(i.photo)}" alt="${i.alt}" loading="lazy">`:""}
+      <span class="fallback" aria-hidden="true">${i.name}</span>
+      <span class="amt">${amount(i.id)}</span>
+      <span class="check"><input type="checkbox" id="ck-${i.id}" data-id="${i.id}" ${checked[i.id]?"checked":""}></span>
+    </div>
+    <div class="txt"><span class="nm">${i.name}</span><span class="sub">${i.note}</span></div></label></li>`).join("");
+  $("ingList").querySelectorAll("img").forEach(img=>img.addEventListener("error",()=>img.parentElement.classList.add("nophoto")));
+  const n = ING.filter(i=>checked[i.id]).length;
+  $("gotCount").textContent = n ? `${n} of ${ING.length} gathered` : "Tap each one as you gather it";
+}
+function render(){
+  $("serv").textContent = serv + (serv===1?" serving":" servings");
+  $("factServ").textContent = "Serves " + serv;
+  $("uUS").setAttribute("aria-pressed", unit==="us");
+  $("uMet").setAttribute("aria-pressed", unit==="met");
+  renderIng();
+  $("stepList").innerHTML = STEPS.map((s,n)=>`<li><div><strong>${s.t}</strong><p>${fill(s.d)}</p>
+    ${s.timer?`<div class="tbtns"><button class="tbtn" type="button" data-step="${n}">Start ${fmt(s.timer.s)} timer</button>${(s.alt||[]).map(a=>`<button class="tbtn" type="button" data-sec="${a.s}" data-label="${s.timer.l}">${a.l}</button>`).join("")}</div>`:""}</div></li>`).join("");
+  if (!$("cook").hidden) renderCook();
+}
+
+/* Timers */
+const timers = []; let audioCtx = null, toastT = null;
+function ctx(){ try{ audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)(); audioCtx.resume(); }catch(e){} return audioCtx; }
+function beep(){
+  try{ const a=ctx(); [0,.35,.7].forEach(t=>{const o=a.createOscillator(),g=a.createGain();
+    o.frequency.value=880;o.connect(g);g.connect(a.destination);
+    g.gain.setValueAtTime(.25,a.currentTime+t);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+t+.3);
+    o.start(a.currentTime+t);o.stop(a.currentTime+t+.3);});
+    if (navigator.vibrate) navigator.vibrate([300,150,300]); }catch(e){}
+}
+function startTimer(sec,label){ ctx(); timers.push({id:Date.now()+Math.random(), end:Date.now()+sec*1000, label, done:false, paused:null}); drawDock(); }
+function toast(msg){ toastT = {msg, until:Date.now()+2500}; drawDock(); }
+function drawDock(){
+  const now = Date.now();
+  $("dock").innerHTML = timers.map(t=>{
+    const left = t.paused!==null ? t.paused : (t.end-now)/1000;
+    return `<div class="timer ${t.done?"done":""}" data-id="${t.id}"><span class="tl">${t.done?"Done: ":""}${t.label}</span>
+      <span class="tt">${t.done?"0:00":fmt(left)}</span>
+      ${t.done?"":`<button type="button" data-act="pause">${t.paused!==null?"Resume":"Pause"}</button>`}
+      <button type="button" data-act="stop">${t.done?"OK":"Cancel"}</button></div>`;}).join("")
+    + (toastT && toastT.until>now ? `<div class="toast">${toastT.msg}</div>` : "");
+}
+setInterval(()=>{
+  const now = Date.now();
+  timers.forEach(t=>{ if(!t.done && t.paused===null && t.end<=now){ t.done=true; beep(); } });
+  if (timers.length || toastT) { if (toastT && toastT.until<=now) toastT=null; drawDock(); }
+}, 250);
+$("dock").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  const i=timers.findIndex(t=>t.id===+b.closest(".timer").dataset.id); if(i<0) return;
+  const t=timers[i];
+  if (b.dataset.act==="stop") timers.splice(i,1);
+  else if (t.paused===null) t.paused=(t.end-Date.now())/1000;
+  else { t.end=Date.now()+t.paused*1000; t.paused=null; }
+  drawDock();
+});
+
+/* Cooking mode */
+let wakeLock = null;
+async function lockScreen(){ try{ wakeLock = await navigator.wakeLock.request("screen"); $("wl").textContent="Screen stays on"; }catch(e){ $("wl").textContent=""; } }
+function renderCook(){
+  const s = STEPS[step];
+  $("cookCount").textContent = `Step ${step+1} of ${STEPS.length}`;
+  $("barFill").style.width = ((step+1)/STEPS.length*100)+"%";
+  const btns = s.timer ? `<div class="tbtns"><button class="tbtn" type="button" data-step="${step}">Start ${fmt(s.timer.s)} timer</button>`
+    + (s.alt||[]).map(a=>`<button class="tbtn" type="button" data-sec="${a.s}" data-label="${s.timer.l}">${a.l}</button>`).join("") + `</div>` : "";
+  $("cookBody").innerHTML = `<h2>${s.t}</h2><p>${fill(s.d)}</p>${btns}`;
+  $("prev").disabled = step===0; $("prev").style.opacity = step===0?.4:1;
+  $("next").textContent = step===STEPS.length-1 ? "Finish" : "Next";
+}
+function openCook(){ step=0; $("cook").hidden=false; renderCook(); lockScreen(); $("next").focus(); }
+function closeCook(){ $("cook").hidden=true; try{wakeLock&&wakeLock.release()}catch(e){} wakeLock=null; }
+document.addEventListener("visibilitychange",()=>{ if(!$("cook").hidden && document.visibilityState==="visible") lockScreen(); });
+$("startCook").onclick = openCook;
+$("exitCook").onclick = closeCook;
+$("prev").onclick = ()=>{ if(step>0){step--;renderCook();} };
+$("next").onclick = ()=>{ if(step<STEPS.length-1){step++;renderCook();} else { closeCook(); toast("Enjoy your salsa!"); } };
+document.addEventListener("keydown",e=>{
+  if ($("cook").hidden) return;
+  if (e.key==="ArrowRight") $("next").click();
+  if (e.key==="ArrowLeft") $("prev").click();
+  if (e.key==="Escape") closeCook();
+});
+document.addEventListener("click",e=>{
+  const b=e.target.closest(".tbtn"); if(!b) return;
+  if (b.dataset.sec) startTimer(+b.dataset.sec, b.dataset.label);
+  else { const s=STEPS[+b.dataset.step]; startTimer(s.timer.s, s.timer.l); }
+});
+
+/* Controls */
+$("minus").onclick=()=>{ if(serv>1){serv--;store.set("cs-serv",serv);render();} };
+$("plus").onclick=()=>{ if(serv<36){serv++;store.set("cs-serv",serv);render();} };
+$("uUS").onclick=()=>{unit="us";store.set("cs-unit",unit);render();};
+$("uMet").onclick=()=>{unit="met";store.set("cs-unit",unit);render();};
+$("ingList").addEventListener("change",e=>{
+  const id=e.target.dataset.id; if(!id) return; checked[id]=e.target.checked; store.set("cs-checked",checked); renderIng();
+});
+
+/* Share: native share sheet on phones, copy link elsewhere */
+$("shareBtn").onclick = async ()=>{
+  const data = {title:document.title, text:"Chipotle-style corn salsa, ready in 5 minutes", url:location.href};
+  try{ if (navigator.share){ await navigator.share(data); return; } }catch(e){ if (e && e.name==="AbortError") return; }
+  try{ await navigator.clipboard.writeText(location.href); toast("Link copied"); }
+  catch(e){ toast(location.href); }
+};
+
+render();
+</script>
+</body>
+</html>
