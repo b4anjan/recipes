@@ -10,6 +10,7 @@ Simple, fresh recipes by **Mohan Karki**, built to cook from your phone.
 | --- | --- | --- |
 | Chipotle-Style Corn Salsa | 5 min, no cooking | [corn-salsa.html](https://b4anjan.github.io/recipes/corn-salsa.html) |
 | Spicy Chicken Keema (Indian / Nepali style) | 45 min | [chicken-keema.html](https://b4anjan.github.io/recipes/chicken-keema.html) |
+| Nepali-Style Chili Oil | 20 min | [chili-oil.html](https://b4anjan.github.io/recipes/chili-oil.html) |
 
 ## What each recipe page does
 
@@ -53,3 +54,11 @@ Each page is a single HTML file with no build step, so it also works when opened
   [Spices in an Indian kitchen](https://commons.wikimedia.org/wiki/File:Spices_in_an_Indian_kitchen.JPG) ·
   [Garam masala](https://commons.wikimedia.org/wiki/File:Garam_Masala_new_2008-1.jpg) ·
   [Timur](https://commons.wikimedia.org/wiki/File:Zanthoxylum_alatum_with_fruits.JPG)
+- Chili oil: pan photo (`images/chili-oil-pan.jpg`) from Mohan's recipe document. Ingredient photos from Wikimedia Commons:
+  [Dried chillies](https://commons.wikimedia.org/wiki/File:Dried_chillies_in_Spice_Bazaar_Istanbul.jpg) ·
+  [Chilli flakes](https://commons.wikimedia.org/wiki/File:2014_Dried_chilli_flakes.jpg) ·
+  [Olive oil](https://commons.wikimedia.org/wiki/File:Bottle_of_olive_oil.jpg) ·
+  [Lemon](https://commons.wikimedia.org/wiki/File:Lemon_-_whole_and_split.jpg) ·
+  [Cumin](https://commons.wikimedia.org/wiki/File:Cumin_seed_whole.JPG) ·
+  [Cardamom](https://commons.wikimedia.org/wiki/File:Black_and_green_cardamom.jpg)
+- Chili oil storage guidance: [Michigan State University Extension](https://www.canr.msu.edu/resources/michigan_fresh_garlic)
