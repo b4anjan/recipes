@@ -33,7 +33,15 @@ Each page is a single HTML file with no build step, so it also works when opened
 ## Credits
 
 - Corn salsa recipe adapted from [From Valerie's Kitchen](https://www.fromvalerieskitchen.com/easy-corn-salsa-chipotle-copycat/).
-- Corn salsa top photo (`images/corn-salsa.jpg`): [Kalejunkie](https://kalejunkie.com), used with permission.
+- Photos used with permission (files in `images/`):
+  - `corn-salsa.jpg`: Kalejunkie
+  - `keema.jpg`: WW (Weight Watchers), "Nepalese keema-style curry"
+  - `keema-card.jpg`: Swasthi's Recipes
+  - `keema-pan.jpg`: Tea for Turmeric
+  - `chili-oil.jpg`: Nomadette
+  - `chili-oil-card.jpg`: Planted With Katie
+  - `chili-oil-bowl.jpg`: The Twin Cooking Project
+  - `chili-oil-pan.jpg`: from Mohan's chili oil recipe document
 - Ingredient photos are hotlinked from Wikimedia Commons; each file page lists its author and license:
   [Fresh Sweet Corn](https://commons.wikimedia.org/wiki/File:Fresh_Sweet_Corn.jpg) ·
   [Corn on the cob](https://commons.wikimedia.org/wiki/File:Corn_on_the_cob_(sweet_corn).jpg) ·
@@ -42,7 +50,6 @@ Each page is a single HTML file with no build step, so it also works when opened
   [Lime](https://commons.wikimedia.org/wiki/File:Lime_-_whole_and_halved.jpg) ·
   [Cilantro](https://commons.wikimedia.org/wiki/File:Homemade_Grown_Coriandum_Sativum_(Cilantro).jpg)
 - Keema photos, also from Wikimedia Commons:
-  [Keema pao](https://commons.wikimedia.org/wiki/File:Keema_Pao_with_Hari_Chutney.jpg) ·
   [Minced meat](https://commons.wikimedia.org/wiki/File:Minced_meat.jpg) ·
   [Onion](https://commons.wikimedia.org/wiki/File:Indian_Onion.jpg) ·
   [Chopped onions](https://commons.wikimedia.org/wiki/File:Chopped_Onions.JPG) ·
@@ -55,7 +62,7 @@ Each page is a single HTML file with no build step, so it also works when opened
   [Spices in an Indian kitchen](https://commons.wikimedia.org/wiki/File:Spices_in_an_Indian_kitchen.JPG) ·
   [Garam masala](https://commons.wikimedia.org/wiki/File:Garam_Masala_new_2008-1.jpg) ·
   [Timur](https://commons.wikimedia.org/wiki/File:Zanthoxylum_alatum_with_fruits.JPG)
-- Chili oil: pan photo (`images/chili-oil-pan.jpg`) from Mohan's recipe document. Ingredient photos from Wikimedia Commons:
+- Chili oil ingredient photos from Wikimedia Commons:
   [Dried chillies](https://commons.wikimedia.org/wiki/File:Dried_chillies_in_Spice_Bazaar_Istanbul.jpg) ·
   [Chilli flakes](https://commons.wikimedia.org/wiki/File:2014_Dried_chilli_flakes.jpg) ·
   [Olive oil](https://commons.wikimedia.org/wiki/File:Bottle_of_olive_oil.jpg) ·

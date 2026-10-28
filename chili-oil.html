@@ -9,7 +9,7 @@
 <meta property="og:title" content="Nepali-Style Chili Oil">
 <meta property="og:description" content="Dried chilies, golden garlic, whole spices and timur, finished with fresh lemon. About 20 minutes.">
 <meta property="og:type" content="article">
-<meta property="og:image" content="https://b4anjan.github.io/recipes/images/chili-oil-pan.jpg">
+<meta property="og:image" content="https://b4anjan.github.io/recipes/images/chili-oil.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#a8261b">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M9 6c10 0 16 8 16 18-5-2-9-5-12-9C11 12 9 9 9 6z' fill='%23a8261b'/%3E%3Cpath d='M9 6C8 4 7 3 5 3' stroke='%234a8a1f' stroke-width='3' fill='none'/%3E%3C/svg%3E">
@@ -67,7 +67,9 @@ h2{font-size:1.35rem;font-weight:800}
 
 .hero{margin:0;border-radius:20px;overflow:hidden;aspect-ratio:2.15/1;background:var(--chili-soft);position:relative}
 .hero img{width:100%;height:100%;object-fit:cover}
-.hero.nophoto img{display:none}
+.hero.nophoto img,.hero.nophoto .credit{display:none}
+.hero.tall{aspect-ratio:818/1285;max-width:440px;width:100%;margin-inline:auto}
+.credit{position:absolute;left:10px;top:10px;background:rgb(24 17 16 / .72);color:#fff;font:600 .7rem var(--mono);padding:4px 8px;border-radius:999px;text-decoration:none}
 
 .facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
 .facts span{font:500 .85rem var(--mono);background:var(--surface);border:1px solid var(--line);padding:6px 10px;border-radius:999px}
@@ -185,8 +187,9 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
     <div class="facts"><span>Prep 10 min</span><span>Cook 10 min</span><span id="factYield">Makes about 2 cups</span><span class="hot" id="factHeat">Hot</span></div>
   </header>
 
-  <figure class="hero" id="hero">
-    <img src="images/chili-oil-pan.jpg" alt="Dried red chilies and garlic infusing in oil in a pan, with lemon and garlic on the counter">
+  <figure class="hero tall" id="hero">
+    <img src="images/chili-oil.jpg" alt="A spoonful of chili oil lifted from a glass jar">
+    <a class="credit" href="https://nomadette.com" target="_blank" rel="noopener">Photo: Nomadette, used with permission</a>
   </figure>
 
   <div class="start">
@@ -260,13 +263,13 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
     </ul>
   </section>
 
-  <p class="src">Recipe by Mohan Karki. Ingredient photos from <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a> under their free licenses. Storage guidance from <a href="https://www.canr.msu.edu/resources/michigan_fresh_garlic" target="_blank" rel="noopener">Michigan State University Extension</a>.</p>
+  <p class="src">Recipe by Mohan Karki. Top photo by <a href="https://nomadette.com" target="_blank" rel="noopener">Nomadette</a>, used with permission; pan photo from Mohan's recipe notes. Ingredient photos from <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a> under their free licenses. Storage guidance from <a href="https://www.canr.msu.edu/resources/michigan_fresh_garlic" target="_blank" rel="noopener">Michigan State University Extension</a>.</p>
 </div>
 
 <div class="dock" id="dock" aria-live="polite"></div>
 
 <script>
-const PHOTO = (f,w) => "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(f) + "?width=" + (w||200);
+const PHOTO = (f,w) => f.startsWith("images/") ? f : "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(f) + "?width=" + (w||200);
 const BATCHES = [0.5, 1, 1.5, 2, 3];
 const CUP_ML = 240;
 
@@ -296,7 +299,7 @@ const STEPS = [
       hot:"Break {chili} dried red chilies into small pieces, or pulse them coarsely in a grinder. Keep the seeds in for full heat. Grind {cumin} cumin seeds together with {timur} timur.",
       milder:"Break {chili} dried red chilies into small pieces and shake out the seeds for a milder oil. Grind {cumin} cumin seeds together with {timur} timur."},
     photo:"2014_Dried_chilli_flakes.jpg"},
-  {t:"Heat the oil with whole spices", d:"Heat {oil} oil in a pan over medium heat. Add {bay} bay leaves, the cardamoms, cinnamon and cloves. Let them splutter for a few seconds.", look:"Spices sizzle and smell fragrant"},
+  {t:"Heat the oil with whole spices", d:"Heat {oil} oil in a pan over medium heat. Add {bay} bay leaves, the cardamoms, cinnamon and cloves. Let them splutter for a few seconds.", look:"Spices sizzle and smell fragrant", photo:"images/chili-oil-pan.jpg"},
   {t:"Fry the garlic and ginger", d:"Add {garlic} chopped garlic cloves and {ginger} ginger, if using. Stir-fry until golden brown and aromatic.", look:"Light golden, not dark brown",
     warn:"Garlic burns easily on high heat and turns bitter. Lift the pan off the heat if it browns too fast.", timer:{s:120,l:"Fry garlic"}},
   {t:"Add the chilies and spices", d:"Lower the heat to low-medium. Add the chilies, {kashmiri} Kashmiri chili powder, the ground cumin and timur, {turmeric} turmeric, salt, and {sugar} sugar. Stir everything well.", look:"Oil turning red, chilies coated", timer:{s:240,l:"Chilies & spices"}},
