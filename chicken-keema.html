@@ -317,13 +317,13 @@ const ING = [
   {id:"methi",   name:"kasuri methi (dried fenugreek)", note:"optional", only:"in", photo:"Dried_leaves_of_Fenugreek-Kasuri_Methi.jpg", us:{v:1,u:"tsp"}, met:{v:1,u:"tsp"}},
   {id:"timur",   name:"timur (Nepali Sichuan pepper), ground", note:"the Nepali tingle", only:"np", photo:"Zanthoxylum_alatum_with_fruits.JPG", us:{v:1/4,u:"tsp"}, met:{v:1/4,u:"tsp"}},
   {id:"lemon",   name:"lemon or lime, juiced", photo:"Lime_-_whole_and_halved.jpg", us:{v:1/2,u:""}, met:{v:1/2,u:""}},
-  {id:"cil",     name:"cilantro (dhaniya), chopped", photo:"Homemade_Grown_Coriandum_Sativum_(Cilantro).jpg", us:{v:1/4,u:"cup"}, met:{v:60,u:"ml"}}
+  {id:"cil",     name:"cilantro (dhaniya)", note:"stems chopped very fine, leaves kept separate", photo:"Homemade_Grown_Coriandum_Sativum_(Cilantro).jpg", us:{v:1/4,u:"cup"}, met:{v:60,u:"ml"}}
 ];
 
 /* Text can be a string, or {in:..., np:...} for style-specific wording. {id} inserts the scaled amount. */
 const STEPS = [
   {t:"Prep everything first", heat:"off",
-    d:"Chop the onions, tomatoes and green chilies. Grate the ginger and garlic. Measure all the ground spices into one small bowl so they go in together. Once the pan is hot everything moves fast, so keep it all within reach.",
+    d:"Chop the onions, tomatoes and green chilies. Grate the ginger and garlic. Separate the cilantro: chop the stems very fine and set the leaves aside. Measure all the ground spices into one small bowl so they go in together. Once the pan is hot everything moves fast, so keep it all within reach.",
     photo:"Chopped_Onions.JPG"},
   {t:"Heat the oil and bloom the whole spices", heat:{in:"med", np:"medhigh"}, stir:"Stir constantly",
     d:{in:"Set a heavy pan or kadai on medium heat for 1 minute, then add {oil} oil or ghee. Heat 1–2 minutes until it shimmers; a cumin seed dropped in should sizzle right away. Add {jeera} cumin seeds, the bay leaf and {clove} cloves.",
@@ -354,15 +354,15 @@ const STEPS = [
     look:"No pink anywhere, fine crumbly texture",
     timer:{s:360,l:"Cook chicken",cues:[[120,"Clumps broken up? Now stir every 45 seconds",45]]}},
   {t:"Simmer with peas", heat:"low", stir:"Every 3 minutes, scraping the bottom",
-    d:"Add {peas} peas and {water} water and stir. Bring it to a boil on medium-high, about 1–2 minutes, then turn the heat down to low and cover.",
-    tl:[["0–2 min","Bring to a boil on medium-high, stirring once"],["2 min","Heat to low, lid on"],["Every 3 min","Lift the lid, stir, and scrape the bottom so nothing catches"],["12 min","Chicken reaches 165°F (74°C) and the peas are tender"]],
+    d:"Add {peas} peas and {water} water, sprinkle the finely chopped cilantro stems all around, and stir. Bring it to a boil on medium-high, about 1–2 minutes, then turn the heat down to low and cover.",
+    tl:[["0–2 min","Add peas, water and cilantro stems. Bring to a boil on medium-high, stirring once"],["2 min","Heat to low, lid on"],["Every 3 min","Lift the lid, stir, and scrape the bottom so nothing catches"],["12 min","Chicken reaches 165°F (74°C) and the peas are tender"]],
     look:"Chicken at 165°F (74°C), peas tender",
     photo:"images/keema-pan.jpg",
     timer:{s:720,l:"Simmer keema",cues:[[120,"Turn the heat to LOW and put the lid on",180]]}},
   {t:"Finish and serve", heat:"med", stir:"Every 30 seconds",
-    d:{in:"Take the lid off and turn the heat to medium. Sprinkle in {garam} garam masala and {methi} kasuri methi, crushed between your palms. Cook uncovered until it's as dry as you like. Turn the heat off, then squeeze in {lemon} lemon and scatter the cilantro.",
-       np:"Take the lid off and turn the heat to medium. Sprinkle in {garam} garam masala and {timur} ground timur. Cook uncovered until it's as dry as you like. Turn the heat off, then squeeze in {lemon} lemon and scatter the cilantro."},
-    tl:[["0–3 min","Stir every 30 seconds as the extra liquid cooks off"],["3 min","Heat off. Add the lemon and cilantro off the heat so they stay fresh"],["Rest 5 min","Leave it covered so the flavors settle before serving"]],
+    d:{in:"Take the lid off and turn the heat to medium. Sprinkle in {garam} garam masala and {methi} kasuri methi, crushed between your palms. Cook uncovered until it's as dry as you like. Turn the heat off, squeeze in {lemon} lemon and scatter the cilantro leaves over the top. Cover and let it rest a few minutes before serving. If you like the leaves fresh and bright, serve right away instead.",
+       np:"Take the lid off and turn the heat to medium. Sprinkle in {garam} garam masala and {timur} ground timur. Cook uncovered until it's as dry as you like. Turn the heat off, squeeze in {lemon} lemon and scatter the cilantro leaves over the top. Cover and let it rest a few minutes before serving. If you like the leaves fresh and bright, serve right away instead."},
+    tl:[["0–3 min","Stir every 30 seconds as the extra liquid cooks off"],["3 min","Heat off. Squeeze in the lemon and scatter the cilantro leaves"],["Rest 3–5 min","Cover so the leaves soften into the keema. For fresh, bright leaves, skip the rest and serve right away"]],
     look:"Moist but not watery",
     timer:{s:180,l:"Dry off keema",stir:30}}
 ];
