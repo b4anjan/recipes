@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Mohan's Kitchen</title>
+<title>Mohanika's Kitchen</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Simple, fresh recipes from Mohan Karki's kitchen, built to cook from on your phone with step-by-step mode and timers.">
-<meta property="og:title" content="Mohan's Kitchen">
+<meta property="og:title" content="Mohanika's Kitchen">
 <meta property="og:description" content="Simple, fresh recipes you can cook straight from your phone.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://b4anjan.github.io/recipes/images/corn-salsa.jpg">
@@ -20,7 +20,7 @@
 /* Layout: warm welcome with a photo mosaic, then a recipe grid and a short "how it works" strip */
 :root{
   --bg:#f6f7f2; --surface:#ffffff; --fg:#1d221c; --muted:#5d665a; --line:#dfe3d6;
-  --corn:#f2b705; --corn-soft:#fdf1c4; --lime:#3f7a19; --lime-soft:#e5f1d8; --chili:#c4391c;
+  --corn:#f2b705; --corn-soft:#fdf1c4; --lime:#3f7a19; --lime-soft:#e5f1d8; --chili:#c4391c; --keema:#b8431f; --oil:#a8261b;
   --on-accent:#ffffff; --shadow:0 1px 2px rgb(29 34 28 / .06), 0 10px 28px rgb(29 34 28 / .09);
   --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
   --body:"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif;
@@ -30,11 +30,11 @@
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#141812; --surface:#1d231a; --fg:#eef1e8; --muted:#a3ad9d; --line:#323b2d;
-  --corn:#f5c531; --corn-soft:#3a3214; --lime:#8fcf5a; --lime-soft:#25331b; --chili:#ff7a57;
+  --corn:#f5c531; --corn-soft:#3a3214; --lime:#8fcf5a; --lime-soft:#25331b; --chili:#ff7a57; --keema:#f2a24a; --oil:#ff7464;
   --on-accent:#141812; --shadow:0 1px 2px rgb(0 0 0 / .3), 0 10px 28px rgb(0 0 0 / .35); color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#141812; --surface:#1d231a; --fg:#eef1e8; --muted:#a3ad9d; --line:#323b2d;
-  --corn:#f5c531; --corn-soft:#3a3214; --lime:#8fcf5a; --lime-soft:#25331b; --chili:#ff7a57;
+  --corn:#f5c531; --corn-soft:#3a3214; --lime:#8fcf5a; --lime-soft:#25331b; --chili:#ff7a57; --keema:#f2a24a; --oil:#ff7464;
   --on-accent:#141812; --shadow:0 1px 2px rgb(0 0 0 / .3), 0 10px 28px rgb(0 0 0 / .35); color-scheme:dark}
 
 *{box-sizing:border-box}
@@ -60,8 +60,11 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.06}
 .welcome h1 span{background:linear-gradient(transparent 62%, var(--corn-soft) 62%);padding:0 .08em}
 .welcome p{color:var(--muted);font-size:1.12rem;margin:16px 0 0;max-width:42ch}
 .welcome .sig{margin-top:18px;font-weight:700;color:var(--fg)}
-.go{display:inline-block;margin-top:24px;background:var(--lime);color:var(--on-accent);font:800 1.08rem var(--display);padding:15px 24px;border-radius:14px;text-decoration:none;box-shadow:var(--shadow)}
+.gos{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.go{display:inline-block;background:var(--lime);color:var(--on-accent);font:800 1.08rem var(--display);padding:15px 24px;border-radius:14px;text-decoration:none;box-shadow:var(--shadow)}
 .go:hover{filter:brightness(1.08)}
+.go.keema{background:var(--keema)}
+.go.oil{background:var(--oil)}
 .mosaic{display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(6,1fr);gap:10px;aspect-ratio:1/1}
 .tile{border-radius:18px;overflow:hidden;background:var(--corn-soft);box-shadow:var(--shadow);position:relative}
 .tile img{width:100%;height:100%;object-fit:cover}
@@ -109,7 +112,7 @@ footer{border-top:1px solid var(--line);padding-block:24px 44px;color:var(--mute
 <div class="gutter">
 <div class="wrap">
   <header class="topbar">
-    <a class="brand" href="./"><i aria-hidden="true"></i>Mohan's Kitchen</a>
+    <a class="brand" href="./"><i aria-hidden="true"></i>Mohanika's Kitchen</a>
     <nav><a href="#recipes">Recipes</a></nav>
   </header>
 
@@ -119,10 +122,14 @@ footer{border-top:1px solid var(--line);padding-block:24px 44px;color:var(--mute
       <h1>Good food, <span>made simple.</span></h1>
       <p>These are the recipes I cook at home for my family. Each one is built to cook from your phone: tap Start cooking for one step at a time, with timers when you need them.</p>
       <div class="sig">Mohan Karki</div>
-      <a class="go" href="corn-salsa.html">Try the corn salsa</a>
+      <div class="gos">
+        <a class="go" href="corn-salsa.html">Try the corn salsa</a>
+        <a class="go keema" href="chicken-keema.html">Try the chicken keema</a>
+        <a class="go oil" href="chili-oil.html">Try the chili oil</a>
+      </div>
     </div>
     <div class="mosaic" aria-hidden="true">
-      <div class="tile t1"><img src="images/corn-salsa.jpg" alt="" style="object-position:50% 45%"></div>
+      <div class="tile t1"><img src="https://images.unsplash.com/photo-1559317996-d154e05c76fb?w=900&q=80&auto=format&fit=crop" alt=""></div>
       <div class="tile t2"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Lime_-_whole_and_halved.jpg?width=500" alt=""></div>
       <div class="tile t3"><img src="images/keema-pan.jpg" alt=""></div>
       <div class="tile t4"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Red_onion_cut.jpg?width=400" alt=""></div>
@@ -197,7 +204,7 @@ footer{border-top:1px solid var(--line);padding-block:24px 44px;color:var(--mute
 
   <footer>
     <span>© <span id="yr">2026</span> Mohan Karki</span>
-    <span>Photos used with permission: <a href="https://kalejunkie.com" target="_blank" rel="noopener">Kalejunkie</a> (corn salsa), <a href="https://www.indianhealthyrecipes.com" target="_blank" rel="noopener">Swasthi's Recipes</a> and <a href="https://teaforturmeric.com" target="_blank" rel="noopener">Tea for Turmeric</a> (keema), Planted With Katie and The Twin Cooking Project (chili oil). Others from <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a>.</span>
+    <span>Photos used with permission: <a href="https://kalejunkie.com" target="_blank" rel="noopener">Kalejunkie</a> (corn salsa), <a href="https://www.indianhealthyrecipes.com" target="_blank" rel="noopener">Swasthi's Recipes</a> and <a href="https://teaforturmeric.com" target="_blank" rel="noopener">Tea for Turmeric</a> (keema), Planted With Katie and The Twin Cooking Project (chili oil). Corn salad photo in the top grid by <a href="https://unsplash.com/photos/a-close-up-of-a-salad-with-peppers-and-corn-W2ycFqUsxvY" target="_blank" rel="noopener">Sagar Mahadik</a> on Unsplash. Others from <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a>.</span>
   </footer>
 </div>
 </div>

@@ -1,4 +1,4 @@
-# Mohan's Kitchen
+# Mohanika's Kitchen
 
 Simple, fresh recipes by **Mohan Karki**, built to cook from your phone.
 
@@ -42,6 +42,7 @@ Each page is a single HTML file with no build step, so it also works when opened
   - `chili-oil-card.jpg`: Planted With Katie
   - `chili-oil-bowl.jpg`: The Twin Cooking Project
   - `chili-oil-pan.jpg`: from Mohan's chili oil recipe document
+- Home page grid corn salad photo: [Sagar Mahadik on Unsplash](https://unsplash.com/photos/a-close-up-of-a-salad-with-peppers-and-corn-W2ycFqUsxvY) (Unsplash License).
 - Ingredient photos are hotlinked from Wikimedia Commons; each file page lists its author and license:
   [Fresh Sweet Corn](https://commons.wikimedia.org/wiki/File:Fresh_Sweet_Corn.jpg) ·
   [Corn on the cob](https://commons.wikimedia.org/wiki/File:Corn_on_the_cob_(sweet_corn).jpg) ·
