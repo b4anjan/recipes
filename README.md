@@ -9,12 +9,14 @@ Simple, fresh recipes by **Mohan Karki**, built to cook from your phone.
 | Recipe | Time | Link |
 | --- | --- | --- |
 | Chipotle-Style Corn Salsa | 5 min, no cooking | [corn-salsa.html](https://b4anjan.github.io/recipes/corn-salsa.html) |
+| Spicy Chicken Keema (Indian / Nepali style) | 45 min | [chicken-keema.html](https://b4anjan.github.io/recipes/chicken-keema.html) |
 
 ## What each recipe page does
 
 - **Start cooking**: highlights the current step right on the page; tap **Done** to move to the next one (keeps the screen awake)
 - **Timers**: tap to start, beep when done, several can run at once
 - **Servings and units**: scale every amount, switch between US and metric
+- **Style and heat** (keema): switch Indian/Nepali style and Mild/Medium/Spicy; ingredients and steps update to match
 - **Ingredient checklist**: tap each ingredient as you gather it (remembered on that device)
 - **Share**: opens the phone's share sheet, or copies the link
 
@@ -37,3 +39,17 @@ Each page is a single HTML file with no build step, so it also works when opened
   [Jalapeño](https://commons.wikimedia.org/wiki/File:Jalapenyo.jpg) ·
   [Lime](https://commons.wikimedia.org/wiki/File:Lime_-_whole_and_halved.jpg) ·
   [Cilantro](https://commons.wikimedia.org/wiki/File:Homemade_Grown_Coriandum_Sativum_(Cilantro).jpg)
+- Keema photos, also from Wikimedia Commons:
+  [Keema pao](https://commons.wikimedia.org/wiki/File:Keema_Pao_with_Hari_Chutney.jpg) ·
+  [Minced meat](https://commons.wikimedia.org/wiki/File:Minced_meat.jpg) ·
+  [Onion](https://commons.wikimedia.org/wiki/File:Indian_Onion.jpg) ·
+  [Chopped onions](https://commons.wikimedia.org/wiki/File:Chopped_Onions.JPG) ·
+  [Tomatoes](https://commons.wikimedia.org/wiki/File:Tomatoes_plain_and_sliced.jpg) ·
+  [Peas](https://commons.wikimedia.org/wiki/File:Green_pea_pod_8866.jpg) ·
+  [Ginger](https://commons.wikimedia.org/wiki/File:-_Ginger_-.jpg) ·
+  [Garlic](https://commons.wikimedia.org/wiki/File:Garlic_bulbs_and_cloves.jpg) ·
+  [Green chilli](https://commons.wikimedia.org/wiki/File:Green_chilli.jpg) ·
+  [Whole spices](https://commons.wikimedia.org/wiki/File:Indian_spices_with_labels_(garam_masala_components)_(49684333301).jpg) ·
+  [Spices in an Indian kitchen](https://commons.wikimedia.org/wiki/File:Spices_in_an_Indian_kitchen.JPG) ·
+  [Garam masala](https://commons.wikimedia.org/wiki/File:Garam_Masala_new_2008-1.jpg) ·
+  [Timur](https://commons.wikimedia.org/wiki/File:Zanthoxylum_alatum_with_fruits.JPG)

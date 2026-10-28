@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Spicy Chicken Keema</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Spicy chicken keema cooked the Indian or Nepali way: onions browned slow, a tomato masala, and ground chicken simmered with peas. By Mohan Karki.">
+<meta property="og:title" content="Spicy Chicken Keema">
+<meta property="og:description" content="Indian or Nepali style, about 45 minutes. Pick your heat level, tick off steps, and run timers right on the page.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://commons.wikimedia.org/wiki/Special:FilePath/Keema_Pao_with_Hari_Chutney.jpg?width=1200">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#b8431f">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3c3 6 9 9 9 16a9 9 0 0 1-18 0c0-7 6-10 9-16z' fill='%23c4391c'/%3E%3Cpath d='M16 3c1-1 3-1 4 0' stroke='%234a8a1f' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@500;700&family=Mukta:wght@600&display=swap">
+<style>
+/* Layout: same one-column recipe card as the corn salsa page, recolored toward turmeric and chili for a masala dish */
+:root{
+  --bg:#f8f5ef; --surface:#ffffff; --fg:#231c17; --muted:#6a5e54; --line:#e6ddd0;
+  --turmeric:#e3a008; --turmeric-soft:#fbefcf; --chili:#b8431f; --chili-soft:#f8e2d8; --leaf:#4a8a1f; --leaf-soft:#e5f1d8;
+  --on-accent:#ffffff;
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  --deva:"Mukta","Nirmala UI","Noto Sans Devanagari",sans-serif;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#17130f; --surface:#211b16; --fg:#f2ece4; --muted:#b0a397; --line:#3a3029;
+  --turmeric:#f2b734; --turmeric-soft:#3b2f12; --chili:#ff7f57; --chili-soft:#3d221a; --leaf:#8fcf5a; --leaf-soft:#25331b;
+  --on-accent:#17130f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#17130f; --surface:#211b16; --fg:#f2ece4; --muted:#b0a397; --line:#3a3029;
+  --turmeric:#f2b734; --turmeric-soft:#3b2f12; --chili:#ff7f57; --chili-soft:#3d221a; --leaf:#8fcf5a; --leaf-soft:#25331b;
+  --on-accent:#17130f; color-scheme:dark}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font:17px/1.55 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 120px}
+img{max-width:100%;display:block}
+a{color:var(--chili)}
+.wrap{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
+h1{font-size:clamp(2rem,7vw,2.8rem);font-weight:800;letter-spacing:-.01em}
+h2{font-size:1.35rem;font-weight:800}
+.eyebrow{font:700 .75rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--chili)}
+.byline{margin:0 0 8px;font-size:.95rem;color:var(--muted)}
+.byline strong{color:var(--fg)}
+.alt{font:600 1.15rem var(--deva);color:var(--muted);margin:4px 0 0}
+.lede{color:var(--muted);margin:8px 0 0;max-width:60ch}
+.kernels{display:flex;gap:5px;margin-bottom:14px}
+.kernels i{width:12px;height:15px;border-radius:50% 50% 45% 45%;background:var(--turmeric)}
+.kernels i:nth-child(2n){background:var(--chili)} .kernels i:nth-child(5){background:var(--leaf)}
+
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.home{font:700 .95rem var(--body);text-decoration:none;color:var(--muted)}
+.home:hover{color:var(--chili)}
+
+.hero{margin:0;border-radius:20px;overflow:hidden;aspect-ratio:16/10;background:var(--turmeric-soft);position:relative}
+.hero img{width:100%;height:100%;object-fit:cover}
+.credit{position:absolute;right:10px;bottom:10px;background:rgb(20 16 12 / .7);color:#fff;font:600 .7rem var(--mono);padding:4px 8px;border-radius:999px;text-decoration:none}
+.hero.nophoto img,.hero.nophoto .credit{display:none}
+
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.facts span{font:500 .85rem var(--mono);background:var(--surface);border:1px solid var(--line);padding:6px 10px;border-radius:999px}
+.facts .hot{border-color:var(--chili);color:var(--chili)}
+
+.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.ctl-row{display:flex;gap:8px;flex-wrap:wrap}
+.stepper{display:flex;align-items:center;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:4px}
+.stepper button{width:40px;height:40px}
+.stepper output{min-width:96px;text-align:center;font:700 1rem var(--mono)}
+.seg{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:4px;gap:4px}
+.seg button{padding:8px 12px;height:40px;font-weight:700}
+.seg button[aria-pressed="true"]{background:var(--turmeric-soft);color:var(--fg)}
+.seg.heat button[aria-pressed="true"]{background:var(--chili-soft);color:var(--chili)}
+.seglbl{font:700 .72rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);align-self:center;padding-left:6px}
+
+button{font:inherit;color:inherit;background:transparent;border:0;border-radius:9px;cursor:pointer}
+button:hover{background:var(--turmeric-soft)}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--turmeric);outline-offset:2px}
+
+/* Ingredients */
+.ing{list-style:none;margin:12px 0 0;padding:0}
+.ing .grp{font:700 .75rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--chili);padding:18px 2px 6px;border-bottom:1px solid var(--line)}
+.ing .grp:first-child{padding-top:4px}
+.ing li.item{border-bottom:1px solid var(--line)}
+.ing label{display:grid;grid-template-columns:24px 56px minmax(0,1fr);gap:14px;align-items:center;padding:10px 2px;cursor:pointer}
+.ing input{width:20px;height:20px;margin:0;accent-color:var(--leaf)}
+.thumb{width:56px;height:56px;border-radius:14px;overflow:hidden;background:var(--turmeric-soft);display:grid;place-items:center;font:800 1.2rem var(--display);color:var(--chili)}
+.thumb img{width:100%;height:100%;object-fit:cover;transition:filter .2s}
+.swatch{width:30px;height:30px;border-radius:50%;box-shadow:inset 0 -4px 0 rgb(0 0 0 / .12)}
+.amt{font:700 .95rem var(--mono);font-variant-numeric:tabular-nums;margin-right:6px}
+.sub{display:block;font-size:.85rem;color:var(--muted)}
+.tag{display:inline-block;font:700 .66rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--chili);border:1px solid currentColor;border-radius:999px;padding:1px 6px;margin-left:6px;vertical-align:2px}
+.ing li.got .thumb img{filter:grayscale(.9) opacity(.6)}
+.ing li.got .swatch{opacity:.4}
+.ing li.got .txt{color:var(--muted);text-decoration:line-through}
+
+/* Steps */
+.stephead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.progress{font:600 .85rem var(--mono);color:var(--muted)}
+.steps{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.steps li{display:grid;grid-template-columns:36px minmax(0,1fr);gap:12px;padding:12px;border-radius:16px;border:2px solid transparent;transition:background .2s,border-color .2s,opacity .2s;scroll-margin:90px}
+.num{font:800 1.1rem var(--display);width:36px;height:36px;border-radius:50%;background:var(--turmeric);color:#231c17;display:grid;place-items:center;padding:0}
+.num:hover{background:var(--turmeric);filter:brightness(1.05)}
+.steps strong{display:block}
+.steps p{margin:2px 0 0}
+.steps .look{display:block;margin-top:6px;font-size:.9rem;color:var(--muted)}
+.steps .look b{color:var(--fg)}
+.steps li.current{background:var(--surface);border-color:var(--chili)}
+.steps li.done{opacity:.55}
+.steps li.done .num{background:var(--leaf);color:var(--on-accent)}
+.steps li.done strong{text-decoration:line-through}
+.sphoto{margin-top:10px;width:100%;max-width:280px;aspect-ratio:16/10;border-radius:12px;overflow:hidden;background:var(--turmeric-soft)}
+.sphoto img{width:100%;height:100%;object-fit:cover}
+.sphoto.nophoto{display:none}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.tbtn{font:700 .85rem var(--mono);border:1px solid var(--chili);color:var(--chili);padding:6px 12px}
+.tbtn:hover{background:var(--chili-soft)}
+.donebtn{font:700 .9rem var(--body);background:var(--leaf);color:var(--on-accent);padding:7px 14px}
+.donebtn:hover{background:var(--leaf);filter:brightness(1.08)}
+.q{font-family:var(--mono);font-weight:700;background:var(--turmeric-soft);padding:0 4px;border-radius:4px;white-space:nowrap}
+
+.start{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.primary{background:var(--chili);color:#fff;font:800 1.1rem var(--display);padding:14px 22px;border-radius:14px}
+.primary:hover{background:var(--chili);filter:brightness(1.08)}
+:root[data-theme="dark"] .primary{color:#17130f}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .primary{color:#17130f}}
+.link{color:var(--muted);font-weight:700;padding:10px 12px;border:1px solid var(--line);border-radius:12px}
+
+.serve{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+.serve div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.serve b{display:block;font-family:var(--display)}
+.serve span{font-size:.88rem;color:var(--muted)}
+.tips{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+.tips ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.src{font-size:.85rem;color:var(--muted);margin:0}
+
+/* Timer dock */
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;flex-direction:column;gap:6px;pointer-events:none;
+  padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.timer,.toast{pointer-events:auto;max-width:640px;width:100%;margin:0 auto;display:flex;align-items:center;gap:12px;
+  background:var(--fg);color:var(--bg);border-radius:14px;padding:10px 14px;box-shadow:0 6px 24px rgb(0 0 0 / .25)}
+.toast{justify-content:center;font-weight:700;max-width:360px}
+.timer .tl{flex:1;min-width:0;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.timer .tt{font:700 1.3rem var(--mono);font-variant-numeric:tabular-nums}
+.timer button{color:inherit;font-weight:700;padding:6px 10px;border:1px solid currentColor}
+.timer button:hover{background:transparent;opacity:.8}
+.timer.done{background:var(--chili);color:#fff;animation:pulse 1s infinite}
+@keyframes pulse{50%{transform:scale(1.02)}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="topbar" aria-label="Site">
+    <a class="home" href="./">← All recipes</a>
+    <button class="link" id="shareBtn" type="button">Share</button>
+  </nav>
+
+  <header>
+    <div class="kernels" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <p class="byline">Created by <strong>Mohan Karki</strong></p>
+    <div class="eyebrow">Indian · Nepali home style</div>
+    <h1>Spicy Chicken Keema</h1>
+    <p class="alt" lang="ne">कुखुराको किमा</p>
+    <p class="lede">Ground chicken cooked in a slow-browned onion and tomato masala with ginger, garlic and green chilies. Switch to Nepali style for mustard oil and a finish of timur.</p>
+    <div class="facts"><span>Prep 15 min</span><span>Cook 30 min</span><span id="factServ">Serves 4</span><span class="hot" id="factHeat">Spicy</span></div>
+  </header>
+
+  <figure class="hero" id="hero">
+    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Keema_Pao_with_Hari_Chutney.jpg?width=1100" alt="Keema served with pav and green chutney">
+    <a class="credit" href="https://commons.wikimedia.org/wiki/File:Keema_Pao_with_Hari_Chutney.jpg" target="_blank" rel="noopener">Photo: Wikimedia Commons</a>
+  </figure>
+
+  <div class="start">
+    <button class="primary" id="startCook" type="button">Start cooking</button>
+    <button class="link" id="resetBtn" type="button" hidden>Start over</button>
+  </div>
+
+  <section aria-labelledby="ingH">
+    <div class="controls">
+      <h2 id="ingH">Ingredients</h2>
+      <div class="ctl-row">
+        <div class="stepper" role="group" aria-label="Servings">
+          <button id="minus" type="button" aria-label="Fewer servings">−</button>
+          <output id="serv" aria-live="polite">4 servings</output>
+          <button id="plus" type="button" aria-label="More servings">+</button>
+        </div>
+        <div class="seg" role="group" aria-label="Units">
+          <button id="uUS" type="button" aria-pressed="true">US</button>
+          <button id="uMet" type="button" aria-pressed="false">Metric</button>
+        </div>
+      </div>
+    </div>
+    <div class="ctl-row" style="margin-top:10px">
+      <div class="seg" role="group" aria-label="Style">
+        <span class="seglbl">Style</span>
+        <button data-style="in" type="button" aria-pressed="true">Indian</button>
+        <button data-style="np" type="button" aria-pressed="false">Nepali</button>
+      </div>
+      <div class="seg heat" role="group" aria-label="Heat level">
+        <span class="seglbl">Heat</span>
+        <button data-heat="mild" type="button" aria-pressed="false">Mild</button>
+        <button data-heat="medium" type="button" aria-pressed="false">Medium</button>
+        <button data-heat="spicy" type="button" aria-pressed="true">Spicy</button>
+      </div>
+    </div>
+    <ul class="ing" id="ingList"></ul>
+  </section>
+
+  <section aria-labelledby="stepH" id="stepsSec">
+    <div class="stephead">
+      <h2 id="stepH">Steps</h2>
+      <span class="progress" id="progress"></span>
+    </div>
+    <ol class="steps" id="stepList"></ol>
+  </section>
+
+  <section aria-labelledby="serveH">
+    <h2 id="serveH">Serve it with</h2>
+    <div class="serve" id="serveList"></div>
+  </section>
+
+  <section class="tips">
+    <h2>Tips</h2>
+    <ul>
+      <li>Use ground chicken thigh if you can find it. Breast-only mince dries out faster.</li>
+      <li>Don't rush the onions. Deep golden onions are where most of the flavor comes from.</li>
+      <li>The masala is ready when it darkens and the oil shines at the edges of the pan.</li>
+      <li>Cook until the chicken reaches 165°F (74°C) in the thickest clump.</li>
+      <li>Keema tastes even better the next day. It keeps 3 days in the fridge or 2 months in the freezer; reheat with a splash of water.</li>
+    </ul>
+  </section>
+
+  <p class="src">Recipe by Mohan Karki. Photos from <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a> under their free licenses.</p>
+</div>
+
+<div class="dock" id="dock" aria-live="polite"></div>
+
+<script>
+const BASE = 4;
+const PHOTO = (f,w) => "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(f) + "?width=" + (w||200);
+const HEAT = {mild:{m:1/3,l:"Mild"}, medium:{m:2/3,l:"Medium"}, spicy:{m:1,l:"Spicy"}};
+
+/* only: "in" = Indian style only, "np" = Nepali style only. heat: true = scales with the heat level. */
+const ING = [
+  {g:"Main"},
+  {id:"chicken", name:"ground chicken", note:"thigh is juiciest", photo:"Minced_meat.jpg", us:{v:16,u:"oz"}, met:{v:450,u:"g"}},
+  {id:"onion",   name:"medium onions, finely chopped", photo:"Indian_Onion.jpg", us:{v:2,u:""}, met:{v:2,u:""}},
+  {id:"tomato",  name:"medium tomatoes, finely chopped", photo:"Tomatoes_plain_and_sliced.jpg", us:{v:2,u:""}, met:{v:2,u:""}},
+  {id:"peas",    name:"green peas", note:"frozen is fine; optional", photo:"Green_pea_pod_8866.jpg", us:{v:1/2,u:"cup"}, met:{v:75,u:"g"}},
+  {id:"water",   name:"water", swatch:"#9cc7e0", us:{v:1/2,u:"cup"}, met:{v:120,u:"ml"}},
+  {g:"Aromatics"},
+  {id:"oil",     name:"vegetable oil or ghee", only:"in", swatch:"#e9c46a", us:{v:3,u:"tbsp"}, met:{v:45,u:"ml"}},
+  {id:"oil",     name:"mustard oil", only:"np", swatch:"#d8a31a", us:{v:3,u:"tbsp"}, met:{v:45,u:"ml"}},
+  {id:"ginger",  name:"ginger, grated or paste", photo:"-_Ginger_-.jpg", us:{v:1,u:"tbsp"}, met:{v:1,u:"tbsp"}},
+  {id:"garlic",  name:"garlic, grated or paste", note:"about 6 cloves", photo:"Garlic_bulbs_and_cloves.jpg", us:{v:1,u:"tbsp"}, met:{v:1,u:"tbsp"}},
+  {id:"green",   name:"green chilies, chopped", heat:true, photo:"Green_chilli.jpg", us:{v:3,u:""}, met:{v:3,u:""}},
+  {g:"Whole spices"},
+  {id:"jeera",   name:"cumin seeds", swatch:"#8a6a3f", us:{v:1,u:"tsp"}, met:{v:1,u:"tsp"}},
+  {id:"bay",     name:"bay leaf", photo:"Indian_spices_with_labels_(garam_masala_components)_(49684333301).jpg", us:{v:1,u:""}, met:{v:1,u:""}, fixed:true},
+  {id:"clove",   name:"cloves", swatch:"#4a2c1d", us:{v:3,u:""}, met:{v:3,u:""}},
+  {g:"Ground spices"},
+  {id:"haldi",   name:"turmeric", swatch:"#e3a008", us:{v:1/2,u:"tsp"}, met:{v:1/2,u:"tsp"}},
+  {id:"kashmiri",name:"Kashmiri chili powder", note:"for color, mild", swatch:"#c0392b", us:{v:1,u:"tsp"}, met:{v:1,u:"tsp"}},
+  {id:"hot",     name:"hot red chili powder", heat:true, swatch:"#8e1f12", us:{v:1,u:"tsp"}, met:{v:1,u:"tsp"}},
+  {id:"dhaniya", name:"coriander powder", swatch:"#b58b4c", us:{v:1.5,u:"tsp"}, met:{v:1.5,u:"tsp"}},
+  {id:"jeerap",  name:"cumin powder", swatch:"#7a5a33", us:{v:1,u:"tsp"}, met:{v:1,u:"tsp"}},
+  {id:"salt",    name:"salt", note:"adjust to taste", swatch:"#e8e4dc", us:{v:1,u:"tsp"}, met:{v:1,u:"tsp"}},
+  {g:"To finish"},
+  {id:"garam",   name:"garam masala", photo:"Garam_Masala_new_2008-1.jpg", us:{v:1,u:"tsp"}, met:{v:1,u:"tsp"}},
+  {id:"methi",   name:"kasuri methi (dried fenugreek)", note:"optional", only:"in", swatch:"#7f8f3a", us:{v:1,u:"tsp"}, met:{v:1,u:"tsp"}},
+  {id:"timur",   name:"timur (Nepali Sichuan pepper), ground", note:"the Nepali tingle", only:"np", photo:"Zanthoxylum_alatum_with_fruits.JPG", us:{v:1/4,u:"tsp"}, met:{v:1/4,u:"tsp"}},
+  {id:"lemon",   name:"lemon or lime, juiced", photo:"Lime_-_whole_and_halved.jpg", us:{v:1/2,u:""}, met:{v:1/2,u:""}},
+  {id:"cil",     name:"cilantro (dhaniya), chopped", photo:"Homemade_Grown_Coriandum_Sativum_(Cilantro).jpg", us:{v:1/4,u:"cup"}, met:{v:60,u:"ml"}}
+];
+
+/* Text can be a string, or {in:..., np:...} for style-specific wording. {id} inserts the scaled amount. */
+const STEPS = [
+  {t:"Prep everything first", d:"Chop the onions, tomatoes and green chilies. Grate the ginger and garlic. Measure the ground spices into one small bowl so they go in together.", photo:"Chopped_Onions.JPG"},
+  {t:"Bloom the whole spices", d:{
+      in:"Heat {oil} oil or ghee in a heavy pan over medium heat. Add {jeera} cumin seeds, the bay leaf and {clove} cloves.",
+      np:"Heat {oil} mustard oil until it just starts to smoke, then turn the heat to medium and wait 30 seconds. This takes away its raw, sharp bite. Add {jeera} cumin seeds, the bay leaf and {clove} cloves."},
+    look:"The seeds sizzle and darken a shade", timer:{s:30,l:"Whole spices"}},
+  {t:"Brown the onions", d:"Add the onions with a pinch of the salt. Cook, stirring often, until deep golden brown.", look:"Deep golden, not black at the edges", timer:{s:600,l:"Brown onions"}},
+  {t:"Add ginger, garlic and chilies", d:"Stir in {ginger} ginger, {garlic} garlic and {green} green chilies. Cook until the raw smell is gone.", look:"Smells sweet, not sharp", timer:{s:60,l:"Ginger & garlic"}},
+  {t:"Make the masala", d:"Add the tomatoes, the ground spices and the rest of the {salt} salt. Cook, stirring, until the tomatoes melt down. If it sticks, add a splash of water.", look:"Oil shines at the edges of the pan", photo:"Spices_in_an_Indian_kitchen.JPG", timer:{s:360,l:"Masala"}},
+  {t:"Cook the chicken", d:"Turn the heat up to medium-high. Add {chicken} ground chicken and break it apart with your spatula, coating it in the masala.", look:"No pink left, crumbly texture", timer:{s:300,l:"Brown chicken"}},
+  {t:"Simmer with peas", d:"Add {peas} peas and {water} water. Cover and simmer on low, stirring once or twice.", look:"Chicken at 165°F (74°C), peas tender", timer:{s:600,l:"Simmer keema"}},
+  {t:"Finish and serve", d:{
+      in:"Stir in {garam} garam masala and {methi} kasuri methi, crushed between your palms. Cook uncovered until it's as dry as you like. Squeeze in {lemon} lemon and scatter the cilantro.",
+      np:"Stir in {garam} garam masala and {timur} ground timur. Cook uncovered until it's as dry as you like. Squeeze in {lemon} lemon and scatter the cilantro."},
+    look:"Moist but not watery", timer:{s:180,l:"Dry off keema"}}
+];
+const SERVE = {
+  in:[["Roti or paratha","Wrap it up, or tear and scoop"],["Pav","Toasted buttered rolls, keema pav style"],["Jeera rice","With a cucumber raita"],["Eggs","Top with a fried egg"]],
+  np:[["Bhat","Plain rice, with dal on the side"],["Chiura","Beaten rice for a quick khaja"],["Achar","Tomato or radish achar"],["Roti","Fresh off the tawa"]]
+};
+
+const store = {get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}},
+               set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const P = "ck-";
+let serv = store.get(P+"serv", BASE), unit = store.get(P+"unit", "us"), style = store.get(P+"style", "in"), heat = store.get(P+"heat", "spicy");
+let checked = store.get(P+"checked", {}), done = store.get(P+"done", []), cooking = store.get(P+"cooking", false);
+const $ = id => document.getElementById(id);
+
+const items = () => ING.filter(i => !i.g && (!i.only || i.only===style));
+const visible = () => ING.filter(i => i.g || !i.only || i.only===style);
+function frac(x){
+  const whole = Math.floor(x + 1e-9), r = x - whole;
+  const opts = [[0,""],[1/8,"⅛"],[1/4,"¼"],[1/3,"⅓"],[3/8,"⅜"],[1/2,"½"],[5/8,"⅝"],[2/3,"⅔"],[3/4,"¾"],[7/8,"⅞"],[1,""]];
+  let best = opts[0]; for (const o of opts) if (Math.abs(o[0]-r) < Math.abs(best[0]-r)) best = o;
+  const w = whole + (best[0]===1?1:0), f = best[0]===1?"":best[1];
+  return (!w && !f) ? "pinch" : (w?w:"") + f;
+}
+function amount(id){
+  const it = items().find(x=>x.id===id); if (!it) return "";
+  const m = it[unit];
+  let v = it.fixed ? m.v : m.v * serv / BASE;
+  if (it.heat) v *= HEAT[heat].m;
+  if (!m.u) {
+    if (it.heat || it.fixed || ["onion","tomato","clove"].includes(id)) return String(Math.max(1, Math.round(v)));
+    return frac(v);
+  }
+  if (unit === "met" && ["g","ml"].includes(m.u)) return (v >= 20 ? Math.round(v/5)*5 : Math.round(v*10)/10) + " " + m.u;
+  if (m.u === "oz" && v >= 16) return frac(v/16) + " lb";
+  if (m.u === "tsp" && v >= 3) return frac(v/3) + " tbsp";
+  return frac(v) + " " + m.u;
+}
+const text = d => typeof d === "string" ? d : d[style];
+const fill = s => s.replace(/\{(\w+)\}/g,(_,id)=>`<span class="q">${amount(id)}</span>`);
+const fmt = s => { s=Math.max(0,Math.ceil(s)); const h=Math.floor(s/3600), m=Math.floor(s%3600/60), x=s%60;
+  return (h? h+":"+String(m).padStart(2,"0") : m) + ":" + String(x).padStart(2,"0"); };
+const currentStep = () => STEPS.findIndex((_,i)=>!done.includes(i));
+
+function renderIng(){
+  $("ingList").innerHTML = visible().map(i=>{
+    if (i.g) return `<li class="grp">${i.g}</li>`;
+    const key = i.id + (i.only||"");
+    const media = i.photo ? `<img src="${PHOTO(i.photo,160)}" alt="" loading="lazy">` : i.swatch ? `<span class="swatch" style="background:${i.swatch}"></span>` : i.name[0].toUpperCase();
+    const tag = i.only==="np" ? `<span class="tag">Nepali</span>` : i.heat ? `<span class="tag">${HEAT[heat].l}</span>` : "";
+    return `<li class="item ${checked[key]?"got":""}"><label for="ing-${key}">
+      <input type="checkbox" id="ing-${key}" data-key="${key}" ${checked[key]?"checked":""}>
+      <span class="thumb" data-ini="${i.name[0].toUpperCase()}">${media}</span>
+      <span class="txt"><span class="amt">${amount(i.id)}</span>${i.name}${tag}${i.note?`<span class="sub">${i.note}</span>`:""}</span></label></li>`;
+  }).join("");
+  $("ingList").querySelectorAll("img").forEach(img=>img.addEventListener("error",()=>{ const t=img.parentElement; t.textContent=t.dataset.ini; }));
+}
+function renderSteps(){
+  const cur = cooking ? currentStep() : -1;
+  $("stepList").innerHTML = STEPS.map((s,n)=>{
+    const isDone = done.includes(n), isCur = n===cur;
+    const timers = s.timer ? `<button class="tbtn" type="button" data-step="${n}">Start ${fmt(s.timer.s)} timer</button>` : "";
+    const doneBtn = isCur ? `<button class="donebtn" type="button" data-done="${n}">Done</button>` : "";
+    return `<li id="step-${n}" class="${isDone?"done":""} ${isCur?"current":""}">
+      <button class="num" type="button" data-toggle="${n}" aria-label="Mark step ${n+1} ${isDone?"not done":"done"}">${isDone?"✓":n+1}</button>
+      <div><strong>${s.t}</strong><p>${fill(text(s.d))}</p>
+      ${s.look?`<span class="look"><b>Look for:</b> ${s.look}</span>`:""}
+      ${s.photo?`<div class="sphoto"><img src="${PHOTO(s.photo,600)}" alt="" loading="lazy"></div>`:""}
+      ${(timers||doneBtn)?`<div class="row">${doneBtn}${timers}</div>`:""}</div></li>`;
+  }).join("");
+  $("stepList").querySelectorAll(".sphoto img").forEach(img=>img.addEventListener("error",()=>img.parentElement.classList.add("nophoto")));
+  $("progress").textContent = done.length ? `${done.length} of ${STEPS.length} done` : "";
+  $("startCook").textContent = cooking ? (cur<0 ? "All done!" : "Go to current step") : "Start cooking";
+  $("resetBtn").hidden = !(cooking || done.length);
+}
+function render(){
+  $("serv").textContent = serv + (serv===1?" serving":" servings");
+  $("factServ").textContent = "Serves " + serv;
+  $("factHeat").textContent = HEAT[heat].l;
+  $("uUS").setAttribute("aria-pressed", unit==="us");
+  $("uMet").setAttribute("aria-pressed", unit==="met");
+  document.querySelectorAll("[data-style]").forEach(b=>b.setAttribute("aria-pressed", b.dataset.style===style));
+  document.querySelectorAll("[data-heat]").forEach(b=>b.setAttribute("aria-pressed", b.dataset.heat===heat));
+  $("serveList").innerHTML = SERVE[style].map(([a,b])=>`<div><b>${a}</b><span>${b}</span></div>`).join("");
+  renderIng(); renderSteps();
+}
+function save(){ store.set(P+"done",done); store.set(P+"cooking",cooking); }
+function goToCurrent(){ const c=currentStep(); const el=$(c<0?"stepsSec":"step-"+c); if(el) el.scrollIntoView({block:"center"}); }
+
+/* Timers */
+const timers = []; let audioCtx = null, toastT = null;
+function ctx(){ try{ audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)(); audioCtx.resume(); }catch(e){} return audioCtx; }
+function beep(){
+  try{ const a=ctx(); [0,.35,.7].forEach(t=>{const o=a.createOscillator(),g=a.createGain();
+    o.frequency.value=880;o.connect(g);g.connect(a.destination);
+    g.gain.setValueAtTime(.25,a.currentTime+t);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+t+.3);
+    o.start(a.currentTime+t);o.stop(a.currentTime+t+.3);});
+    if (navigator.vibrate) navigator.vibrate([300,150,300]); }catch(e){}
+}
+function startTimer(sec,label){ ctx(); timers.push({id:Date.now()+Math.random(), end:Date.now()+sec*1000, label, done:false, paused:null}); drawDock(); }
+function toast(msg){ toastT={msg,until:Date.now()+2500}; drawDock(); }
+function drawDock(){
+  const now = Date.now();
+  $("dock").innerHTML = timers.map(t=>{
+    const left = t.paused!==null ? t.paused : (t.end-now)/1000;
+    return `<div class="timer ${t.done?"done":""}" data-id="${t.id}"><span class="tl">${t.done?"Done: ":""}${t.label}</span>
+      <span class="tt">${t.done?"0:00":fmt(left)}</span>
+      ${t.done?"":`<button type="button" data-act="pause">${t.paused!==null?"Resume":"Pause"}</button>`}
+      <button type="button" data-act="stop">${t.done?"OK":"Cancel"}</button></div>`;}).join("")
+    + (toastT && toastT.until>now ? `<div class="toast">${toastT.msg}</div>` : "");
+}
+setInterval(()=>{
+  const now = Date.now();
+  timers.forEach(t=>{ if(!t.done && t.paused===null && t.end<=now){ t.done=true; beep(); } });
+  if (toastT && toastT.until<=now) { toastT=null; drawDock(); }
+  if (timers.length) drawDock();
+}, 250);
+$("dock").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  const i=timers.findIndex(t=>t.id===+b.closest(".timer").dataset.id); if(i<0) return;
+  const t=timers[i];
+  if (b.dataset.act==="stop") timers.splice(i,1);
+  else if (t.paused===null) t.paused=(t.end-Date.now())/1000;
+  else { t.end=Date.now()+t.paused*1000; t.paused=null; }
+  drawDock();
+});
+
+/* Keep the screen on while cooking */
+let wakeLock = null;
+async function lockScreen(){ if(!cooking) return; try{ wakeLock = await navigator.wakeLock.request("screen"); }catch(e){} }
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible") lockScreen(); });
+
+/* Step interactions */
+$("startCook").onclick = ()=>{ if(!cooking){ cooking=true; save(); renderSteps(); lockScreen(); } goToCurrent(); };
+$("resetBtn").onclick = ()=>{ done=[]; cooking=false; save(); try{wakeLock&&wakeLock.release()}catch(e){} renderSteps(); };
+$("stepList").addEventListener("click",e=>{
+  const t=e.target.closest("[data-done],[data-toggle]"); if(!t) return;
+  const n = +(t.dataset.done ?? t.dataset.toggle);
+  if (done.includes(n)) done = done.filter(x=>x!==n); else done.push(n);
+  if (!cooking){ cooking=true; lockScreen(); }
+  save(); renderSteps();
+  if (t.dataset.done!==undefined){
+    if (currentStep()<0) toast("All done. Enjoy your keema!");
+    else setTimeout(goToCurrent, 60);
+  }
+});
+document.addEventListener("click",e=>{
+  const b=e.target.closest(".tbtn"); if(!b) return;
+  const s=STEPS[+b.dataset.step]; startTimer(s.timer.s, s.timer.l);
+});
+
+/* Controls */
+$("minus").onclick=()=>{ if(serv>1){serv--;store.set(P+"serv",serv);render();} };
+$("plus").onclick=()=>{ if(serv<24){serv++;store.set(P+"serv",serv);render();} };
+$("uUS").onclick=()=>{unit="us";store.set(P+"unit",unit);render();};
+$("uMet").onclick=()=>{unit="met";store.set(P+"unit",unit);render();};
+document.querySelectorAll("[data-style]").forEach(b=>b.onclick=()=>{style=b.dataset.style;store.set(P+"style",style);render();});
+document.querySelectorAll("[data-heat]").forEach(b=>b.onclick=()=>{heat=b.dataset.heat;store.set(P+"heat",heat);render();});
+$("ingList").addEventListener("change",e=>{
+  const k=e.target.dataset.key; if(!k) return; checked[k]=e.target.checked; store.set(P+"checked",checked); renderIng();
+});
+
+/* Share: phone share sheet, or copy the link */
+$("shareBtn").onclick = async ()=>{
+  try{ if (navigator.share){ await navigator.share({title:document.title, text:"Spicy chicken keema, Indian or Nepali style", url:location.href}); return; } }
+  catch(e){ if (e && e.name==="AbortError") return; }
+  try{ await navigator.clipboard.writeText(location.href); toast("Link copied"); }catch(e){ toast(location.href); }
+};
+
+$("hero").querySelector("img").addEventListener("error",()=>$("hero").classList.add("nophoto"));
+render();
+if (cooking) lockScreen();
+</script>
+</body>
+</html>
