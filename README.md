@@ -12,7 +12,7 @@ Simple, fresh recipes by **Mohan Karki**, built to cook from your phone.
 
 ## What each recipe page does
 
-- **Start cooking**: full-screen, one step at a time, keeps the screen awake
+- **Start cooking**: highlights the current step right on the page; tap **Done** to move to the next one (keeps the screen awake)
 - **Timers**: tap to start, beep when done, several can run at once
 - **Servings and units**: scale every amount, switch between US and metric
 - **Ingredient checklist**: tap each ingredient as you gather it (remembered on that device)
