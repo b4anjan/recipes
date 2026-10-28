@@ -249,6 +249,11 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
         <button data-heat="medium" type="button" aria-pressed="false">Medium</button>
         <button data-heat="spicy" type="button" aria-pressed="true">Spicy</button>
       </div>
+      <div class="seg" role="group" aria-label="Cardamom">
+        <span class="seglbl">Cardamom</span>
+        <button data-card="whole" type="button" aria-pressed="true">Whole</button>
+        <button data-card="crushed" type="button" aria-pressed="false">Crushed</button>
+      </div>
     </div>
     <ul class="ing" id="ingList"></ul>
   </section>
@@ -305,6 +310,9 @@ const ING = [
   {id:"jeera",   name:"cumin seeds", photo:"Cumin_seed_whole.JPG", us:{v:1,u:"tsp"}, met:{v:1,u:"tsp"}},
   {id:"bay",     name:"bay leaf", photo:"Indian_bay_leaf_-_tejpatta_-_indisches_Lorbeerblatt.jpg", us:{v:1,u:""}, met:{v:1,u:""}, fixed:true},
   {id:"clove",   name:"cloves", photo:"Cloves-spice.jpg", us:{v:3,u:""}, met:{v:3,u:""}},
+  {id:"cinnamon",name:"cinnamon stick, small", photo:"Cinnamon_sticks_-_(1).jpg", us:{v:1,u:""}, met:{v:1,u:""}, fixed:true},
+  {id:"bcard",   name:"black cardamom (large)", card:true, photo:"Cardamomi_nigr.1.JPG", us:{v:[1,2],u:""}, met:{v:[1,2],u:""}},
+  {id:"gcard",   name:"green cardamom (small)", card:true, photo:"Green_Cardamom.JPG", us:{v:[5,6],u:""}, met:{v:[5,6],u:""}},
   {g:"Ground spices"},
   {id:"haldi",   name:"turmeric", photo:"Turmeric-powder.jpg", us:{v:1/2,u:"tsp"}, met:{v:1/2,u:"tsp"}},
   {id:"kashmiri",name:"Kashmiri chili powder", note:"for color, mild", photo:"Kashmiri_Red_Chilli.JPG", us:{v:1,u:"tsp"}, met:{v:1,u:"tsp"}},
@@ -323,17 +331,17 @@ const ING = [
 /* Text can be a string, or {in:..., np:...} for style-specific wording. {id} inserts the scaled amount. */
 const STEPS = [
   {t:"Prep everything first", heat:"off",
-    d:"Chop the onions, tomatoes and green chilies. Grate the ginger and garlic. Separate the cilantro: chop the stems very fine and set the leaves aside. Measure all the ground spices into one small bowl so they go in together. Once the pan is hot everything moves fast, so keep it all within reach.",
+    d:"Chop the onions, tomatoes and green chilies. Grate the ginger and garlic. Separate the cilantro: chop the stems very fine and set the leaves aside. [[c:Crush {bcard} black and {gcard} green cardamoms, pods and seeds, in a stone mortar or on a sil-batta; stone crushing gives a better flavor than a machine grinder. ]]Measure all the ground spices into one small bowl so they go in together. Once the pan is hot everything moves fast, so keep it all within reach.",
     photo:"Chopped_Onions.JPG"},
   {t:"Heat the oil and bloom the whole spices", heat:{in:"med", np:"medhigh"}, stir:"Stir constantly",
-    d:{in:"Set a heavy pan or kadai on medium heat for 1 minute, then add {oil} oil or ghee. Heat 1–2 minutes until it shimmers; a cumin seed dropped in should sizzle right away. Add {jeera} cumin seeds, the bay leaf and {clove} cloves.",
-       np:"Set a heavy pan or kadai on medium-high heat and add {oil} mustard oil. Heat 2–3 minutes until the first thin wisps of smoke appear and the oil turns paler. Turn the heat off for 30 seconds, then back on to medium. Add {jeera} cumin seeds, the bay leaf and {clove} cloves."},
-    tl:[["0:00–0:30","Stir constantly so nothing sits on the hot spot"],["0:30","Cumin is one shade darker and the cloves puff up. Move on right away"]],
+    d:{in:"Set a heavy pan or kadai on medium heat for 1 minute, then add {oil} oil or ghee. Heat 1–2 minutes until it shimmers; a cumin seed dropped in should sizzle right away. Add {jeera} cumin seeds, the bay leaf, the cinnamon stick and {clove} cloves[[w:, plus {bcard} black and {gcard} green cardamoms]].",
+       np:"Set a heavy pan or kadai on medium-high heat and add {oil} mustard oil. Heat 2–3 minutes until the first thin wisps of smoke appear and the oil turns paler. Turn the heat off for 30 seconds, then back on to medium. Add {jeera} cumin seeds, the bay leaf, the cinnamon stick and {clove} cloves[[w:, plus {bcard} black and {gcard} green cardamoms]]."},
+    tl:[["0:00–0:30","Stir constantly so nothing sits on the hot spot"],["0:30","Cumin is one shade darker and the cloves[[w: and cardamoms]] puff up. Move on right away"]],
     look:"Seeds sizzle, darken one shade and smell nutty",
     warn:"Black seeds taste bitter. If they burn, wipe the pan out and start this step again.",
     timer:{s:30,l:"Bloom spices"}},
   {t:"Brown the onions", heat:"med", stir:"Every minute, then every 30 seconds",
-    d:"Keep the heat on medium. Add the onions and a pinch of the salt, which helps them soften. Spread them into an even layer.",
+    d:"Keep the heat on medium. Add the onions and a pinch of the salt, which helps them soften. [[c:Sprinkle in the crushed cardamoms with the onions; crushed seeds would burn in the hot oil on their own. ]]Spread them into an even layer.",
     tl:[["0–3 min","Stir every minute. Onions soften and turn see-through"],["3–6 min","Stir every 45 seconds. The edges turn light gold"],["6–10 min","Stir every 30 seconds. Deep golden brown all over"],["If sticking","Lower to medium-low, add 1 tbsp water and scrape the bottom"]],
     look:"Deep golden brown and soft, no black edges",
     timer:{s:600,l:"Brown onions",stir:60,cues:[[180,"Onions are softening. Stir every 45 seconds now",45],[360,"Onions are coloring fast. Stir every 30 seconds",30]]}},
@@ -374,7 +382,7 @@ const SERVE = {
 const store = {get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}},
                set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 const P = "ck-";
-let serv = store.get(P+"serv", BASE), unit = store.get(P+"unit", "us"), style = store.get(P+"style", "in"), heat = store.get(P+"heat", "spicy");
+let serv = store.get(P+"serv", BASE), unit = store.get(P+"unit", "us"), style = store.get(P+"style", "in"), heat = store.get(P+"heat", "spicy"), card = store.get(P+"card", "whole");
 let checked = store.get(P+"checked", {}), done = store.get(P+"done", []), cooking = store.get(P+"cooking", false);
 const $ = id => document.getElementById(id);
 
@@ -390,6 +398,7 @@ function frac(x){
 function amount(id){
   const it = items().find(x=>x.id===id); if (!it) return "";
   const m = it[unit];
+  if (Array.isArray(m.v)) { const k = serv / BASE, lo = Math.max(1, Math.round(m.v[0]*k)), hi = Math.max(lo, Math.round(m.v[1]*k)); return lo===hi ? String(lo) : lo + "–" + hi; }
   let v = it.fixed ? m.v : m.v * serv / BASE;
   if (it.heat) v *= HEAT[heat].m;
   if (!m.u) {
@@ -402,7 +411,7 @@ function amount(id){
   return frac(v) + " " + m.u;
 }
 const text = d => typeof d === "string" ? d : d[style];
-const fill = s => s.replace(/\{(\w+)\}/g,(_,id)=>`<span class="q">${amount(id)}</span>`);
+const fill = s => s.replace(/\[\[(w|c):([^\]]*)\]\]/g,(_,k,t)=> ((k==="w")===(card==="whole")) ? t : "").replace(/\{(\w+)\}/g,(_,id)=>`<span class="q">${amount(id)}</span>`);
 const fmt = s => { s=Math.max(0,Math.ceil(s)); const h=Math.floor(s/3600), m=Math.floor(s%3600/60), x=s%60;
   return (h? h+":"+String(m).padStart(2,"0") : m) + ":" + String(x).padStart(2,"0"); };
 const currentStep = () => STEPS.findIndex((_,i)=>!done.includes(i));
@@ -412,11 +421,12 @@ function renderIng(){
     if (i.g) return `<li class="grp">${i.g}</li>`;
     const key = i.id + (i.only||"");
     const media = i.photo ? `<img src="${PHOTO(i.photo,160)}" alt="" loading="lazy">` : i.swatch ? `<span class="swatch" style="background:${i.swatch}"></span>` : i.name[0].toUpperCase();
-    const tag = i.only==="np" ? `<span class="tag">Nepali</span>` : i.heat ? `<span class="tag">${HEAT[heat].l}</span>` : "";
+    const tag = i.only==="np" ? `<span class="tag">Nepali</span>` : i.heat ? `<span class="tag">${HEAT[heat].l}</span>` : i.card ? `<span class="tag">${card==="whole"?"Whole":"Crushed"}</span>` : "";
+    const note = i.card ? (card==="whole" ? "whole pods, go into the hot oil" : "crushed in a stone mortar, added with the onions") : i.note;
     return `<li class="item ${checked[key]?"got":""}"><label for="ing-${key}">
       <input type="checkbox" id="ing-${key}" data-key="${key}" ${checked[key]?"checked":""}>
       <span class="thumb" data-ini="${i.name[0].toUpperCase()}">${media}</span>
-      <span class="txt"><span class="amt">${amount(i.id)}</span>${i.name}${tag}${i.note?`<span class="sub">${i.note}</span>`:""}</span></label></li>`;
+      <span class="txt"><span class="amt">${amount(i.id)}</span>${i.name}${tag}${note?`<span class="sub">${note}</span>`:""}</span></label></li>`;
   }).join("");
   $("ingList").querySelectorAll("img").forEach(img=>img.addEventListener("error",()=>{ const t=img.parentElement; t.textContent=t.dataset.ini; }));
 }
@@ -459,6 +469,7 @@ function render(){
   $("uMet").setAttribute("aria-pressed", unit==="met");
   document.querySelectorAll("[data-style]").forEach(b=>b.setAttribute("aria-pressed", b.dataset.style===style));
   document.querySelectorAll("[data-heat]").forEach(b=>b.setAttribute("aria-pressed", b.dataset.heat===heat));
+  document.querySelectorAll("[data-card]").forEach(b=>b.setAttribute("aria-pressed", b.dataset.card===card));
   $("serveList").innerHTML = SERVE[style].map(([a,b])=>`<div><b>${a}</b><span>${b}</span></div>`).join("");
   renderIng(); renderSteps();
 }
@@ -606,6 +617,7 @@ $("uUS").onclick=()=>{unit="us";store.set(P+"unit",unit);render();};
 $("uMet").onclick=()=>{unit="met";store.set(P+"unit",unit);render();};
 document.querySelectorAll("[data-style]").forEach(b=>b.onclick=()=>{style=b.dataset.style;store.set(P+"style",style);render();});
 document.querySelectorAll("[data-heat]").forEach(b=>b.onclick=()=>{heat=b.dataset.heat;store.set(P+"heat",heat);render();});
+document.querySelectorAll("[data-card]").forEach(b=>b.onclick=()=>{card=b.dataset.card;store.set(P+"card",card);render();});
 $("ingList").addEventListener("change",e=>{
   const k=e.target.dataset.key; if(!k) return; checked[k]=e.target.checked; store.set(P+"checked",checked); renderIng();
 });
