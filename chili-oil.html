@@ -19,6 +19,7 @@
 <style>
 /* Layout: same one-column recipe card as the other pages, recolored to chili red and toasted-garlic gold */
 :root{
+  --heatc:#d9480f;
   --bg:#f9f4ef; --surface:#ffffff; --fg:#241815; --muted:#6c5a53; --line:#eadbd2;
   --gold:#d99a1e; --gold-soft:#fbecd0; --chili:#a8261b; --chili-soft:#f7ddd8; --leaf:#4a8a1f; --leaf-soft:#e5f1d8;
   --warn:#8a5a00; --warn-soft:#fff3d6;
@@ -167,6 +168,23 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .timer button:hover{background:transparent;opacity:.8}
 .timer.done{background:var(--chili);color:#fff;animation:pulse 1s infinite}
 @keyframes pulse{50%{transform:scale(1.02)}}
+
+/* Heat badge, stir cue and minute-by-minute timeline */
+.meta-row{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin:6px 0 2px}
+.hb{display:inline-flex;align-items:center;gap:7px;font:700 .74rem var(--mono);letter-spacing:.04em;text-transform:uppercase;padding:4px 9px 4px 8px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
+.hb .bars{display:inline-flex;gap:2px;align-items:flex-end}
+.hb .bars i{width:4px;border-radius:2px;background:var(--line)}
+.hb .bars i:nth-child(1){height:6px}.hb .bars i:nth-child(2){height:8px}.hb .bars i:nth-child(3){height:10px}.hb .bars i:nth-child(4){height:12px}.hb .bars i:nth-child(5){height:14px}
+.hb .bars i.on{background:var(--heatc)}
+.hb.off{color:var(--muted)}
+.stircue{font:600 .8rem var(--mono);color:var(--muted)}
+.tline{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:6px;border-left:2px solid var(--line);padding-left:12px}
+.tline li{display:grid;grid-template-columns:minmax(76px,auto) minmax(0,1fr);gap:10px;font-size:.93rem;line-height:1.45}
+.tline .at{font:700 .78rem var(--mono);color:var(--fg);white-space:nowrap;padding-top:2px}
+.timer .sub{display:block;font:600 .72rem var(--mono);opacity:.75}
+.timer .tl{flex:1;min-width:0;display:block}
+.timer .tl b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.timer.stirnow{outline:3px solid var(--heatc)}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
 </head>
@@ -281,29 +299,52 @@ const ING = [
   {id:"ginger", name:"ginger, finely chopped", note:"optional", photo:"-_Ginger_-.jpg", us:{v:1,u:"tbsp"}},
   {id:"lemon",  name:"big lemon, juiced", note:"or white vinegar", photo:"Lemon_-_whole_and_split.jpg", us:{v:1,u:""}},
   {g:"Ground spices"},
-  {id:"kashmiri", name:"Kashmiri chili powder", note:"for deep red color", swatch:"#c0392b", us:{v:2,u:"tbsp"}},
+  {id:"kashmiri", name:"Kashmiri chili powder", note:"for deep red color", photo:"Kashmiri_Red_Chilli.JPG", us:{v:2,u:"tbsp"}},
   {id:"cumin",  name:"cumin seeds", note:"ground together with the timur", photo:"Cumin_seed_whole.JPG", us:{v:1,u:"tsp"}},
   {id:"timur",  name:"timur (Sichuan peppercorns), finely ground", photo:"Zanthoxylum_alatum_with_fruits.JPG", us:{v:1,u:"tsp"}},
-  {id:"turmeric", name:"turmeric powder", swatch:"#e3a008", us:{v:1/4,u:"tsp"}},
-  {id:"salt",   name:"salt", swatch:"#e8e4dc", us:{t:"to taste"}},
-  {id:"sugar",  name:"sugar", note:"just a small spoon", swatch:"#f4efe6", us:{v:1,u:"tsp"}},
+  {id:"turmeric", name:"turmeric powder", photo:"Turmeric-powder.jpg", us:{v:1/4,u:"tsp"}},
+  {id:"salt",   name:"salt", photo:"Salt_Crystals.JPG", us:{t:"to taste"}},
+  {id:"sugar",  name:"sugar", note:"just a small spoon", photo:"Bowl_of_white_sugar.jpg", us:{v:1,u:"tsp"}},
   {g:"Whole spices"},
-  {id:"bay",    name:"bay leaves", photo:"Indian_spices_with_labels_(garam_masala_components)_(49684333301).jpg", us:{v:[1,2],u:""}},
+  {id:"bay",    name:"bay leaves", photo:"Indian_bay_leaf_-_tejpatta_-_indisches_Lorbeerblatt.jpg", us:{v:[1,2],u:""}},
   {id:"cardamom", name:"green and black cardamoms", note:"plus 1 green pod for the jar", photo:"Black_and_green_cardamom.jpg", us:{t:"a few"}},
-  {id:"cinnamon", name:"cinnamon sticks", note:"plus 1 small stick for the jar", swatch:"#8b5a2b", us:{t:"1–2"}},
-  {id:"cloves", name:"cloves", swatch:"#4a2c1d", us:{t:"a few"}}
+  {id:"cinnamon", name:"cinnamon sticks", note:"plus 1 small stick for the jar", photo:"Cinnamon_sticks_-_(1).jpg", us:{t:"1–2"}},
+  {id:"cloves", name:"cloves", photo:"Cloves-spice.jpg", us:{t:"a few"}}
 ];
 const STEPS = [
-  {t:"Prepare the dried chilies", d:{
-      hot:"Break {chili} dried red chilies into small pieces, or pulse them coarsely in a grinder. Keep the seeds in for full heat. Grind {cumin} cumin seeds together with {timur} timur.",
-      milder:"Break {chili} dried red chilies into small pieces and shake out the seeds for a milder oil. Grind {cumin} cumin seeds together with {timur} timur."},
+  {t:"Prepare the dried chilies", heat:"off",
+    d:{hot:"Break {chili} dried red chilies into small pieces, or pulse them coarsely in a grinder. Keep the seeds in for full heat. Grind {cumin} cumin seeds together with {timur} timur. Measure everything and set it next to the stove; once the oil is hot, things move in seconds.",
+       milder:"Break {chili} dried red chilies into small pieces and shake out the seeds for a milder oil. Grind {cumin} cumin seeds together with {timur} timur. Measure everything and set it next to the stove; once the oil is hot, things move in seconds."},
     photo:"2014_Dried_chilli_flakes.jpg"},
-  {t:"Heat the oil with whole spices", d:"Heat {oil} oil in a pan over medium heat. Add {bay} bay leaves, the cardamoms, cinnamon and cloves. Let them splutter for a few seconds.", look:"Spices sizzle and smell fragrant", photo:"images/chili-oil-pan.jpg"},
-  {t:"Fry the garlic and ginger", d:"Add {garlic} chopped garlic cloves and {ginger} ginger, if using. Stir-fry until golden brown and aromatic.", look:"Light golden, not dark brown",
-    warn:"Garlic burns easily on high heat and turns bitter. Lift the pan off the heat if it browns too fast.", timer:{s:120,l:"Fry garlic"}},
-  {t:"Add the chilies and spices", d:"Lower the heat to low-medium. Add the chilies, {kashmiri} Kashmiri chili powder, the ground cumin and timur, {turmeric} turmeric, salt, and {sugar} sugar. Stir everything well.", look:"Oil turning red, chilies coated", timer:{s:240,l:"Chilies & spices"}},
-  {t:"Simmer", d:"Let it cook gently for a few more minutes, stirring now and then.", look:"Deep red oil and a rich, spicy aroma", timer:{s:180,l:"Simmer"}},
-  {t:"Cool, add lemon, and jar it", d:"Take the pan off the heat and let it cool to room temperature. Remove the bay leaves. Squeeze in {lemon} lemon to taste and stir. Drop a small cinnamon stick and a cardamom into a clean jar, pour in the oil, close the lid and refrigerate.", look:"Fully cool before it goes in the jar", warn:"Store in the fridge and use within 4 days, or freeze. See the storage note below.", timer:{s:1800,l:"Cool oil"}}
+  {t:"Heat the oil with whole spices", heat:"med", stir:"Stir 20–30 seconds once the spices go in",
+    d:"Pour {oil} oil into a deep pan; it should come no more than halfway up the sides. Heat on medium until it shimmers and one chili flake dropped in sizzles gently. Add {bay} bay leaves, the cardamoms, cinnamon and cloves.",
+    tl:[["0–3 min","Heat the oil, no stirring needed"],["Test","Drop in one chili flake. Gentle sizzle means ready; no sizzle, wait 30 seconds more"],["+0:30","Spices in. Stir until they sizzle and the cardamoms puff"]],
+    look:"Spices sizzle and smell fragrant",
+    photo:"images/chili-oil-pan.jpg",
+    timer:{s:180,l:"Heat oil",cues:[[150,"Test the oil with one chili flake"]]}},
+  {t:"Fry the garlic and ginger", heat:"medlow", stir:"Every 15–20 seconds",
+    d:"Turn the heat down to medium-low, then add {garlic} chopped garlic cloves and {ginger} ginger, if using.",
+    tl:[["0–1 min","Stir every 15–20 seconds. Small bubbles all around the garlic"],["1–3 min","Keep stirring every 15 seconds as it turns light gold"],["Light gold","Move on now. Garlic keeps darkening for a few seconds after"]],
+    look:"Light golden, not dark brown",
+    warn:"Garlic burns easily on high heat and turns bitter. Lift the pan off the heat if it browns too fast.",
+    timer:{s:180,l:"Fry garlic",stir:20}},
+  {t:"Add the chilies and spices", heat:"low", stir:"Constantly, then every 20–30 seconds",
+    d:"Turn the heat to low BEFORE adding anything. Then add the chilies, {kashmiri} Kashmiri chili powder, the ground cumin and timur, {turmeric} turmeric, salt, and {sugar} sugar.",
+    tl:[["First minute","Stir constantly so the powders don't settle and scorch"],["1–4 min","Stir every 20–30 seconds as the oil turns red"],["If it smokes","Lift the pan off the heat for 30 seconds, then carry on"]],
+    look:"Oil turning red, chilies coated",
+    warn:"Chili flakes and powders burn within seconds in hot oil and turn black and bitter.",
+    timer:{s:240,l:"Chilies & spices",cues:[[60,"Now stir every 20–30 seconds",25]]}},
+  {t:"Simmer gently", heat:"low", stir:"Every 30–60 seconds",
+    d:"Keep it on low and let the chilies infuse the oil. Only small, gentle bubbles; if it bubbles hard, lower the heat.",
+    tl:[["0–3 min","Stir every 30–60 seconds"],["3 min","Oil is deep red and smells rich. Turn the heat off"]],
+    look:"Deep red oil and a rich, spicy aroma",
+    timer:{s:180,l:"Simmer",stir:45}},
+  {t:"Cool, add lemon, and jar it", heat:"off", stir:"Every 10 minutes while cooling",
+    d:"Turn the heat off and move the pan to a cool burner. Let it cool to room temperature. Remove the bay leaves. Once cool, squeeze in {lemon} lemon to taste and stir; lemon added to hot oil spatters. Put a small cinnamon stick and a cardamom pod in a clean, dry jar, pour in the oil, close the lid and refrigerate.",
+    tl:[["0–30 min","Cool, stirring every 10 minutes to release the heat"],["Fully cool","Remove the bay leaves, add the lemon, and stir"],["Then","Jar it and refrigerate"]],
+    look:"Fully cool before it goes in the jar",
+    warn:"Store in the fridge and use within 4 days, or freeze. See the storage note below.",
+    timer:{s:1800,l:"Cool oil",stir:600}}
 ];
 
 const store = {get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}},
@@ -366,17 +407,29 @@ function renderIng(){
   }).join("");
   $("ingList").querySelectorAll("img").forEach(img=>img.addEventListener("error",()=>{ const t=img.parentElement; t.textContent=t.dataset.ini; }));
 }
+const HEATLV = {off:[0,"Heat off"], low:[1,"Low"], medlow:[2,"Medium-low"], med:[3,"Medium"], medhigh:[4,"Medium-high"], high:[5,"High"]};
+const pick = x => (x && typeof x === "object") ? (x[typeof style !== "undefined" ? style : ""] ?? x[typeof heat !== "undefined" ? heat : ""] ?? Object.values(x)[0]) : x;
+function heatBadge(h){
+  const [n,l] = HEATLV[h] || HEATLV.off;
+  const bars = [1,2,3,4,5].map(i=>`<i class="${i<=n?"on":""}"></i>`).join("");
+  return `<span class="hb ${n?"":"off"}" title="Stove heat"><span class="bars" aria-hidden="true">${bars}</span>${l}</span>`;
+}
 function renderSteps(){
   const cur = cooking ? currentStep() : -1;
   $("stepList").innerHTML = STEPS.map((s,n)=>{
     const isDone = done.includes(n), isCur = n===cur;
-    const timers = s.timer ? `<button class="tbtn" type="button" data-step="${n}">Start ${fmt(s.timer.s)} timer</button>` : "";
+    const t = s.timer;
+    const timers = t ? `<button class="tbtn" type="button" data-step="${n}">Start ${fmt(t.s)} timer${t.stir?" + stir alerts":""}</button>` : "";
     const doneBtn = isCur ? `<button class="donebtn" type="button" data-done="${n}">Done</button>` : "";
+    const tl = s.tl ? `<ol class="tline">${s.tl.map(([a,b])=>`<li><span class="at">${a}</span><span>${fill(pick(b))}</span></li>`).join("")}</ol>` : "";
     return `<li id="step-${n}" class="${isDone?"done":""} ${isCur?"current":""}">
       <button class="num" type="button" data-toggle="${n}" aria-label="Mark step ${n+1} ${isDone?"not done":"done"}">${isDone?"✓":n+1}</button>
-      <div><strong>${s.t}</strong><p>${fill(text(s.d))}</p>
-      ${s.look?`<span class="look"><b>Look for:</b> ${s.look}</span>`:""}
-      ${s.warn?`<span class="warn">${s.warn}</span>`:""}
+      <div><strong>${s.t}</strong>
+      <div class="meta-row">${heatBadge(pick(s.heat)||"off")}${s.stir?`<span class="stircue">${pick(s.stir)}</span>`:""}</div>
+      <p>${fill(text(s.d))}</p>
+      ${tl}
+      ${s.look?`<span class="look"><b>Look for:</b> ${pick(s.look)}</span>`:""}
+      ${s.warn?`<span class="warn">${pick(s.warn)}</span>`:""}
       ${s.photo?`<div class="sphoto"><img src="${PHOTO(s.photo,600)}" alt="" loading="lazy"></div>`:""}
       ${(timers||doneBtn)?`<div class="row">${doneBtn}${timers}</div>`:""}</div></li>`;
   }).join("");
@@ -398,23 +451,32 @@ function render(){
 function save(){ store.set(P+"done",done); store.set(P+"cooking",cooking); }
 function goToCurrent(){ const c=currentStep(); const el=$(c<0?"stepsSec":"step-"+c); if(el) el.scrollIntoView({block:"center"}); }
 
-/* Timers */
+/* Timers: count down, with optional stir alerts and timed cues (elapsed seconds) */
 const timers = []; let audioCtx = null, toastT = null;
 function ctx(){ try{ audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)(); audioCtx.resume(); }catch(e){} return audioCtx; }
-function beep(){
-  try{ const a=ctx(); [0,.35,.7].forEach(t=>{const o=a.createOscillator(),g=a.createGain();
-    o.frequency.value=880;o.connect(g);g.connect(a.destination);
-    g.gain.setValueAtTime(.25,a.currentTime+t);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+t+.3);
-    o.start(a.currentTime+t);o.stop(a.currentTime+t+.3);});
-    if (navigator.vibrate) navigator.vibrate([300,150,300]); }catch(e){}
+function tone(freqs, gap, len, vol){
+  try{ const a=ctx(); freqs.forEach((f,i)=>{const o=a.createOscillator(),g=a.createGain(),t0=a.currentTime+i*gap;
+    o.frequency.value=f;o.connect(g);g.connect(a.destination);
+    g.gain.setValueAtTime(vol,t0);g.gain.exponentialRampToValueAtTime(.001,t0+len);
+    o.start(t0);o.stop(t0+len);}); }catch(e){}
 }
-function startTimer(sec,label){ ctx(); timers.push({id:Date.now()+Math.random(), end:Date.now()+sec*1000, label, done:false, paused:null}); drawDock(); }
-function toast(msg){ toastT={msg,until:Date.now()+2500}; drawDock(); }
+function beep(){ tone([880,880,880],.35,.3,.25); try{ if(navigator.vibrate) navigator.vibrate([300,150,300]); }catch(e){} }
+function chime(){ tone([660,990],.18,.22,.18); try{ if(navigator.vibrate) navigator.vibrate(150); }catch(e){} }
+function startTimer(sec,label,opt){
+  opt = opt || {}; ctx();
+  timers.push({id:Date.now()+Math.random(), total:sec, end:Date.now()+sec*1000, label, done:false, paused:null,
+    stir:opt.stir||0, nextStir:opt.stir||0, cues:(opt.cues||[]).map(c=>({at:c[0], msg:c[1], stir:c[2], fired:false})), flash:0});
+  drawDock();
+}
+function toast(msg, ms){ toastT={msg,until:Date.now()+(ms||2600)}; drawDock(); }
+function leftOf(t, now){ return t.paused!==null ? t.paused : (t.end-now)/1000; }
 function drawDock(){
   const now = Date.now();
   $("dock").innerHTML = timers.map(t=>{
-    const left = t.paused!==null ? t.paused : (t.end-now)/1000;
-    return `<div class="timer ${t.done?"done":""}" data-id="${t.id}"><span class="tl">${t.done?"Done: ":""}${t.label}</span>
+    const left = leftOf(t, now), el = t.total-left;
+    const sub = t.done ? "" : (t.stir ? `Stir in ${fmt(Math.max(0,t.nextStir-el))}` : "");
+    return `<div class="timer ${t.done?"done":""} ${t.flash>now?"stirnow":""}" data-id="${t.id}">
+      <span class="tl"><b>${t.done?"Done: ":""}${t.label}</b>${sub?`<span class="sub">${sub}</span>`:""}</span>
       <span class="tt">${t.done?"0:00":fmt(left)}</span>
       ${t.done?"":`<button type="button" data-act="pause">${t.paused!==null?"Resume":"Pause"}</button>`}
       <button type="button" data-act="stop">${t.done?"OK":"Cancel"}</button></div>`;}).join("")
@@ -422,9 +484,15 @@ function drawDock(){
 }
 setInterval(()=>{
   const now = Date.now();
-  timers.forEach(t=>{ if(!t.done && t.paused===null && t.end<=now){ t.done=true; beep(); } });
-  if (toastT && toastT.until<=now) { toastT=null; drawDock(); }
-  if (timers.length) drawDock();
+  timers.forEach(t=>{
+    if (t.done || t.paused!==null) return;
+    const left = (t.end-now)/1000, el = t.total-left;
+    t.cues.forEach(c=>{ if(!c.fired && el>=c.at){ c.fired=true; if(c.stir!==undefined){ t.stir=c.stir; t.nextStir=el+c.stir; } chime(); toast(c.msg, 5000); t.flash=now+3000; } });
+    if (t.stir && el>=t.nextStir && left>1){ t.nextStir+=t.stir; chime(); toast("Stir now: "+t.label, 2600); t.flash=now+2000; }
+    if (left<=0){ t.done=true; beep(); }
+  });
+  if (toastT && toastT.until<=now) toastT=null;
+  if (timers.length || toastT!==null) drawDock(); else $("dock").innerHTML="";
 }, 250);
 $("dock").addEventListener("click",e=>{
   const b=e.target.closest("button"); if(!b) return;
@@ -452,12 +520,12 @@ $("stepList").addEventListener("click",e=>{
   save(); renderSteps();
   if (t.dataset.done!==undefined){
     if (currentStep()<0) toast("All done. Into the fridge it goes!");
-    else setTimeout(goToCurrent, 60);
+    else { const nx=STEPS[currentStep()], h=HEATLV[pick(nx.heat)||"off"][1]; toast(`Next: ${nx.t}. ${h==='Heat off'?'Heat off':'Heat: '+h}`, 4000); setTimeout(goToCurrent, 60); }
   }
 });
 document.addEventListener("click",e=>{
   const b=e.target.closest(".tbtn"); if(!b) return;
-  const s=STEPS[+b.dataset.step]; startTimer(s.timer.s, s.timer.l);
+  const s=STEPS[+b.dataset.step]; startTimer(s.timer.s, s.timer.l, s.timer);
 });
 
 /* Controls */
