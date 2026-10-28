@@ -12,6 +12,11 @@
 <meta property="og:image" content="https://b4anjan.github.io/recipes/images/chili-oil.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#a8261b">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="images/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Mohanika's Kitchen">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M9 6c10 0 16 8 16 18-5-2-9-5-12-9C11 12 9 9 9 6z' fill='%23a8261b'/%3E%3Cpath d='M9 6C8 4 7 3 5 3' stroke='%234a8a1f' stroke-width='3' fill='none'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -185,6 +190,20 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .timer .tl{flex:1;min-width:0;display:block}
 .timer .tl b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .timer.stirnow{outline:3px solid var(--heatc)}
+/* Finish alarm: full-screen, rings until stopped */
+.alarm{position:fixed;inset:0;z-index:60;display:grid;place-items:center;text-align:center;color:#fff;background:#b3260f;animation:alarmPulse 1s infinite;
+  padding:calc(24px + env(safe-area-inset-top,0px)) max(24px,env(safe-area-inset-right,0px)) calc(24px + env(safe-area-inset-bottom,0px)) max(24px,env(safe-area-inset-left,0px))}
+.alarm[hidden]{display:none}
+@keyframes alarmPulse{50%{background:#7e1606}}
+.alarm-in{max-width:440px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.alarm svg{width:72px;height:72px;animation:alarmShake .5s infinite}
+@keyframes alarmShake{25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
+.alarm h2{font:800 clamp(2.2rem,10vw,3.4rem)/1 var(--display);margin:0;color:#fff}
+.alarm p{margin:0;font-size:1.25rem;font-weight:700}
+.alarm .since{font:600 .9rem var(--mono);opacity:.85}
+.alarm .stop{margin-top:10px;background:#fff;color:#7e1606;font:800 1.35rem var(--display);padding:18px 44px;border-radius:999px;min-width:240px;box-shadow:0 8px 30px rgb(0 0 0 / .3)}
+.alarm .stop:hover{background:#fff;filter:brightness(.95)}
+.alarm .stop:focus-visible{outline:4px solid #ffd54a;outline-offset:3px}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
 </head>
@@ -451,19 +470,42 @@ function render(){
 function save(){ store.set(P+"done",done); store.set(P+"cooking",cooking); }
 function goToCurrent(){ const c=currentStep(); const el=$(c<0?"stepsSec":"step-"+c); if(el) el.scrollIntoView({block:"center"}); }
 
-/* Timers: count down, with optional stir alerts and timed cues (elapsed seconds) */
-const timers = []; let audioCtx = null, toastT = null;
-function ctx(){ try{ audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)(); audioCtx.resume(); }catch(e){} return audioCtx; }
+/* Timers: count down from the real clock, with stir alerts and timed cues.
+   When a timer finishes, the alarm keeps ringing (sound, vibration, full-screen alert, phone notification)
+   until someone taps Stop. */
+const timers = []; let audioCtx = null, toastT = null, lastRing = 0, alarmKey = "";
+function ctx(){ try{ audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)(); if (audioCtx.state!=="running") audioCtx.resume(); }catch(e){} return audioCtx; }
 function tone(freqs, gap, len, vol){
   try{ const a=ctx(); freqs.forEach((f,i)=>{const o=a.createOscillator(),g=a.createGain(),t0=a.currentTime+i*gap;
-    o.frequency.value=f;o.connect(g);g.connect(a.destination);
-    g.gain.setValueAtTime(vol,t0);g.gain.exponentialRampToValueAtTime(.001,t0+len);
-    o.start(t0);o.stop(t0+len);}); }catch(e){}
+    o.type="square"; o.frequency.value=f; o.connect(g); g.connect(a.destination);
+    g.gain.setValueAtTime(vol,t0); g.gain.exponentialRampToValueAtTime(.001,t0+len);
+    o.start(t0); o.stop(t0+len);}); }catch(e){}
 }
-function beep(){ tone([880,880,880],.35,.3,.25); try{ if(navigator.vibrate) navigator.vibrate([300,150,300]); }catch(e){} }
-function chime(){ tone([660,990],.18,.22,.18); try{ if(navigator.vibrate) navigator.vibrate(150); }catch(e){} }
+function chime(){ tone([660,990],.18,.22,.12); try{ if(navigator.vibrate) navigator.vibrate(150); }catch(e){} }
+function ring(){ tone([988,784,988,784,988,784],.16,.14,.22); try{ if(navigator.vibrate) navigator.vibrate([500,150,500,150,500]); }catch(e){} }
+
+/* Phone notifications: a service worker shows them on Android; iPhone shows them when the site is added to the Home Screen */
+let swReg = null;
+try{ if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").then(r=>{ swReg=r; }).catch(()=>{}); }catch(e){}
+function askNotify(){
+  try{
+    if ("Notification" in window) { if (Notification.permission==="default") Notification.requestPermission().catch(()=>{}); }
+    else if (!store.get("tip-notify", false)) { store.set("tip-notify", true); toast("Keep this page open while the timer runs. On iPhone, add this site to your Home Screen to also get timer notifications.", 7000); }
+  }catch(e){}
+}
+function notify(t){
+  try{
+    if (!("Notification" in window) || Notification.permission!=="granted") return;
+    const opts = {body:"Tap to open the recipe and stop the alarm.", tag:"timer-"+t.id, requireInteraction:true, renotify:true,
+      vibrate:[600,200,600,200,600], icon:"images/icon-192.png", badge:"images/icon-192.png", data:{url:location.href}};
+    if (swReg && swReg.showNotification) swReg.showNotification("Time's up: "+t.label, opts);
+    else new Notification("Time's up: "+t.label, opts);
+  }catch(e){}
+}
+function clearNotify(id){ try{ if (swReg && swReg.getNotifications) swReg.getNotifications({tag:"timer-"+id}).then(ns=>ns.forEach(n=>n.close())); }catch(e){} }
+
 function startTimer(sec,label,opt){
-  opt = opt || {}; ctx();
+  opt = opt || {}; ctx(); askNotify();
   timers.push({id:Date.now()+Math.random(), total:sec, end:Date.now()+sec*1000, label, done:false, paused:null,
     stir:opt.stir||0, nextStir:opt.stir||0, cues:(opt.cues||[]).map(c=>({at:c[0], msg:c[1], stir:c[2], fired:false})), flash:0});
   drawDock();
@@ -472,33 +514,67 @@ function toast(msg, ms){ toastT={msg,until:Date.now()+(ms||2600)}; drawDock(); }
 function leftOf(t, now){ return t.paused!==null ? t.paused : (t.end-now)/1000; }
 function drawDock(){
   const now = Date.now();
-  $("dock").innerHTML = timers.map(t=>{
+  $("dock").innerHTML = timers.filter(t=>!t.done).map(t=>{
     const left = leftOf(t, now), el = t.total-left;
-    const sub = t.done ? "" : (t.stir ? `Stir in ${fmt(Math.max(0,t.nextStir-el))}` : "");
-    return `<div class="timer ${t.done?"done":""} ${t.flash>now?"stirnow":""}" data-id="${t.id}">
-      <span class="tl"><b>${t.done?"Done: ":""}${t.label}</b>${sub?`<span class="sub">${sub}</span>`:""}</span>
-      <span class="tt">${t.done?"0:00":fmt(left)}</span>
-      ${t.done?"":`<button type="button" data-act="pause">${t.paused!==null?"Resume":"Pause"}</button>`}
-      <button type="button" data-act="stop">${t.done?"OK":"Cancel"}</button></div>`;}).join("")
+    const sub = t.stir ? `Stir in ${fmt(Math.max(0,t.nextStir-el))}` : "";
+    return `<div class="timer ${t.flash>now?"stirnow":""}" data-id="${t.id}">
+      <span class="tl"><b>${t.label}</b>${sub?`<span class="sub">${sub}</span>`:""}</span>
+      <span class="tt">${fmt(left)}</span>
+      <button type="button" data-act="pause">${t.paused!==null?"Resume":"Pause"}</button>
+      <button type="button" data-act="stop">Cancel</button></div>`;}).join("")
     + (toastT && toastT.until>now ? `<div class="toast">${toastT.msg}</div>` : "");
 }
-setInterval(()=>{
+function drawAlarm(){
+  const ringing = timers.filter(t=>t.done);
+  let el = $("alarm");
+  if (!ringing.length){ if (el) el.hidden = true; alarmKey=""; return; }
+  if (!el){
+    el = document.createElement("div"); el.id="alarm"; el.className="alarm";
+    el.setAttribute("role","alertdialog"); el.setAttribute("aria-modal","true"); el.setAttribute("aria-labelledby","alarmTitle");
+    document.body.appendChild(el);
+    el.addEventListener("click", e=>{ if (e.target.closest("[data-stop]")) stopAlarms(); });
+  }
+  const key = ringing.map(t=>t.id).join(",");
+  if (key !== alarmKey){
+    alarmKey = key;
+    el.innerHTML = `<div class="alarm-in">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+      <h2 id="alarmTitle">Time's up</h2>
+      <p>${ringing.map(t=>t.label).join(" · ")}</p>
+      <p class="since" id="alarmSince"></p>
+      <button class="stop" type="button" data-stop>Stop alarm</button></div>`;
+    el.hidden = false;
+    const b = el.querySelector("[data-stop]"); if (b) b.focus();
+  }
+  const s = $("alarmSince"); if (s) s.textContent = "Ringing for " + fmt((Date.now()-Math.min(...ringing.map(t=>t.doneAt)))/1000);
+}
+function stopAlarms(){
+  for (let i=timers.length-1; i>=0; i--) if (timers[i].done){ clearNotify(timers[i].id); timers.splice(i,1); }
+  try{ if (navigator.vibrate) navigator.vibrate(0); }catch(e){}
+  drawAlarm(); drawDock();
+}
+function tick(){
   const now = Date.now();
   timers.forEach(t=>{
     if (t.done || t.paused!==null) return;
     const left = (t.end-now)/1000, el = t.total-left;
     t.cues.forEach(c=>{ if(!c.fired && el>=c.at){ c.fired=true; if(c.stir!==undefined){ t.stir=c.stir; t.nextStir=el+c.stir; } chime(); toast(c.msg, 5000); t.flash=now+3000; } });
     if (t.stir && el>=t.nextStir && left>1){ t.nextStir+=t.stir; chime(); toast("Stir now: "+t.label, 2600); t.flash=now+2000; }
-    if (left<=0){ t.done=true; beep(); }
+    if (left<=0){ t.done=true; t.doneAt=now; notify(t); lastRing=0; }
   });
+  if (timers.some(t=>t.done) && now-lastRing>=1500){ lastRing=now; ring(); }
   if (toastT && toastT.until<=now) toastT=null;
+  drawAlarm();
   if (timers.length || toastT!==null) drawDock(); else $("dock").innerHTML="";
-}, 250);
+}
+setInterval(tick, 250);
+document.addEventListener("visibilitychange", ()=>{ if (document.visibilityState==="visible"){ ctx(); tick(); } });
+document.addEventListener("keydown", e=>{ if (e.key==="Escape" && timers.some(t=>t.done)) stopAlarms(); });
 $("dock").addEventListener("click",e=>{
   const b=e.target.closest("button"); if(!b) return;
   const i=timers.findIndex(t=>t.id===+b.closest(".timer").dataset.id); if(i<0) return;
   const t=timers[i];
-  if (b.dataset.act==="stop") timers.splice(i,1);
+  if (b.dataset.act==="stop") { clearNotify(t.id); timers.splice(i,1); }
   else if (t.paused===null) t.paused=(t.end-Date.now())/1000;
   else { t.end=Date.now()+t.paused*1000; t.paused=null; }
   drawDock();

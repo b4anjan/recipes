@@ -15,7 +15,7 @@ Simple, fresh recipes by **Mohan Karki**, built to cook from your phone.
 ## What each recipe page does
 
 - **Start cooking**: highlights the current step right on the page; tap **Done** to move to the next one (keeps the screen awake)
-- **Timers**: tap to start, beep when done, several can run at once
+- **Timers**: tap to start; several can run at once. When one finishes, a full-screen alarm rings (sound, and vibration on Android) until you tap **Stop alarm**, and a phone notification appears (Android browsers; on iPhone after adding the site to the Home Screen). `sw.js` only handles these notifications and does no caching
 - **Heat and stirring** (keema, chili oil): every step shows the stove heat level, how often to stir, and a minute-by-minute "what to do when" timeline; timers chime when it is time to stir or change the heat
 - **Servings and units**: scale every amount, switch between US and metric
 - **Style and heat** (keema): switch Indian/Nepali style and Mild/Medium/Spicy; ingredients and steps update to match
