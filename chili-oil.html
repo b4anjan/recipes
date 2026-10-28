@@ -108,6 +108,7 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .swatch{width:30px;height:30px;border-radius:50%;box-shadow:inset 0 -4px 0 rgb(0 0 0 / .12)}
 .amt{font:700 .95rem var(--mono);font-variant-numeric:tabular-nums;margin-right:6px}
 .sub{display:block;font-size:.85rem;color:var(--muted)}
+.ne{font:600 .95em var(--deva);color:var(--muted);margin-left:6px}
 .tag{display:inline-block;font:700 .66rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--chili);border:1px solid currentColor;border-radius:999px;padding:1px 6px;margin-left:6px;vertical-align:2px}
 .ing li.got .thumb img{filter:grayscale(.9) opacity(.6)}
 .ing li.got .swatch{opacity:.4}
@@ -326,9 +327,9 @@ const ING = [
   {id:"sugar",  name:"sugar", note:"just a small spoon", photo:"Bowl_of_white_sugar.jpg", us:{v:1,u:"tsp"}},
   {g:"Whole spices"},
   {id:"bay",    name:"bay leaves", photo:"Indian_bay_leaf_-_tejpatta_-_indisches_Lorbeerblatt.jpg", us:{v:[1,2],u:""}},
-  {id:"cardamom", name:"green and black cardamoms", note:"plus 1 green pod for the jar", photo:"Black_and_green_cardamom.jpg", us:{t:"a few"}},
+  {id:"cardamom", name:"green and black cardamoms", ne:"सुकुमेल · अलैंची", note:"plus 1 green pod for the jar", photo:"Black_and_green_cardamom.jpg", us:{t:"a few"}},
   {id:"cinnamon", name:"cinnamon sticks", note:"plus 1 small stick for the jar", photo:"Cinnamon_sticks_-_(1).jpg", us:{t:"1–2"}},
-  {id:"cloves", name:"cloves", photo:"Cloves-spice.jpg", us:{t:"a few"}}
+  {id:"cloves", name:"cloves", ne:"ल्वाङ", photo:"Cloves-spice.jpg", us:{t:"a few"}}
 ];
 const STEPS = [
   {t:"Prepare the dried chilies", heat:"off",
@@ -422,7 +423,7 @@ function renderIng(){
     return `<li class="item ${checked[i.id]?"got":""}"><label for="ing-${i.id}">
       <input type="checkbox" id="ing-${i.id}" data-key="${i.id}" ${checked[i.id]?"checked":""}>
       <span class="thumb" data-ini="${i.name[0].toUpperCase()}">${media}</span>
-      <span class="txt"><span class="amt">${amount(i.id)}</span>${i.name}${tag}${i.note?`<span class="sub">${i.note}</span>`:""}</span></label></li>`;
+      <span class="txt"><span class="amt">${amount(i.id)}</span>${i.name}${i.ne?`<span class="ne" lang="ne">${i.ne}</span>`:""}${tag}${i.note?`<span class="sub">${i.note}</span>`:""}</span></label></li>`;
   }).join("");
   $("ingList").querySelectorAll("img").forEach(img=>img.addEventListener("error",()=>{ const t=img.parentElement; t.textContent=t.dataset.ini; }));
 }
