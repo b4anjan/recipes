@@ -527,6 +527,7 @@ function drawDock(){
 }
 function drawAlarm(){
   const ringing = timers.filter(t=>t.done);
+  if (window.kitchenMusic) window.kitchenMusic.alarm(ringing.length>0);
   let el = $("alarm");
   if (!ringing.length){ if (el) el.hidden = true; alarmKey=""; return; }
   if (!el){
@@ -626,5 +627,6 @@ $("hero").querySelector("img").addEventListener("error",()=>$("hero").classList.
 render();
 if (cooking) lockScreen();
 </script>
+<script src="music.js" defer></script>
 </body>
 </html>

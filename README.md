@@ -34,6 +34,7 @@ Each page is a single HTML file with no build step, so it also works when opened
 ## Credits
 
 - Corn salsa recipe adapted from [From Valerie's Kitchen](https://www.fromvalerieskitchen.com/easy-corn-salsa-chipotle-copycat/).
+- Background music: `audio/take-a-little.m4a`, “Take a Little” by Jaxson Blue, used with permission. Played by `music.js` on every page, with a pause/play button.
 - Photos used with permission (files in `images/`):
   - `corn-salsa.jpg`: Kalejunkie
   - `keema.jpg`: WW (Weight Watchers), "Nepalese keema-style curry"
